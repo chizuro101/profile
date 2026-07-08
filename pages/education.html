@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Education — Johnmark Delacruz</title>
+  <meta name="description" content="Academic background and education timeline." />
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+
+</head>
+  <body>
+    <!-- ─── MOBILE TOP BAR (name left, hamburger right) ─── -->
+    <div class="mobile-topbar">
+      <div class="mobile-brand">Johnmark Delacruz</div>
+      <label class="menu-toggle hamburger" aria-label="Open menu" aria-expanded="false" role="button" tabindex="0">
+        <input type="checkbox" class="menu-toggle-input" aria-hidden="true" tabindex="-1" />
+        <span class="hamburger-icon" aria-hidden="true">
+          <span class="line line-top"></span>
+          <span class="line line-mid"></span>
+          <span class="line line-bot"></span>
+        </span>
+      </label>
+    </div>
+    <div class="sidebar-backdrop"></div>
+
+    <!-- ─── RIGHT SIDEBAR ─── -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">Johnmark Delacruz</div>
+      <div class="sidebar-scroll">
+        <nav class="sidebar-nav">
+          <a href="blog.html">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M3 9h18M9 21V9" />
+              </svg>
+            </span>
+            Blog
+          </a>
+          <a href="resources.html">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path
+                  d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+                />
+              </svg>
+            </span>
+            Resources
+          </a>
+        </nav>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="nav-group">
+          <div class="nav-group-items">
+            <a href="projects.html">Projects</a>
+            <a href="experience.html">Experience</a>
+            <a href="stack.html">Stack</a>
+            <a href="certifications.html">Certifications</a>
+            <a href="education.html">Education</a>
+          </div>
+        </div>
+
+        <div class="sidebar-divider"></div>
+      </div>
+      <a href="#" data-ask-trigger>
+        <div class="shortcut-row">
+          <span>Ask anything</span>
+          <div class="shortcut-keys">
+            <span class="kbd">Alt</span>
+            <span class="kbd-plus">+</span>
+            <span class="kbd">K</span>
+          </div>
+        </div>
+      </a>
+      <a href="#" data-typing-test>
+        <div class="shortcut-row">
+          <span>Typing test</span>
+          <div class="shortcut-keys">
+            <span class="kbd">Alt</span>
+            <span class="kbd-plus">+</span>
+            <span class="kbd">J</span>
+          </div>
+        </div>
+      </a>
+
+      <div class="viewers-block">
+        <div class="avatar-stack">
+          <div class="av"><img src="../assets/img/char/avatar.svg" alt="" /></div>
+          <div class="av">
+            <img src="../assets/img/char/avatar (1).svg" alt="" />
+          </div>
+          <div class="av">
+            <img src="../assets/img/char/avatar (2).svg" alt="" />
+          </div>
+          <div class="av av-count">+52</div>
+        </div>
+        <div class="viewers-text">
+          <strong id="viewerCount">55</strong> people viewing now
+        </div>
+        <a href="#" class="community-btn" data-community-chat>
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+            />
+          </svg>
+          community chat
+        </a>
+      </div>
+
+      <div class="theme-toggle">
+        <div class="theme-btns">
+          <button class="theme-btn" data-theme="system" title="System">
+            <svg viewBox="0 0 24 24">
+              <rect x="2" y="4" width="20" height="14" rx="2" />
+              <path d="M8 20h8M12 18v2" />
+            </svg>
+          </button>
+          <button class="theme-btn" data-theme="light" title="Light">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="5" />
+              <path
+                d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+              />
+            </svg>
+          </button>
+          <button class="theme-btn active" data-theme="dark" title="Dark">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="contact-block">
+          For work, collabs & everything else, reach me at
+          <a href="mailto:johnmarkdelacruzii5@gmail.com" class="contact-email">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            johnmarkdelacruzii5@gmail.com
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Ask Anything modal -->
+    <div class="ask-overlay" id="askOverlay">
+      <a href="blog.html"><span class="ask-esc-hint">Esc to close</span></a>
+      <div class="ask-inner">
+        <div class="ask-chip" id="askChip"></div>
+        <div class="ask-thinking" id="askThinking">
+          <span class="ask-thinking-dots"><span></span><span></span></span>
+          thinking...
+        </div>
+        <div class="ask-giant placeholder" id="askGiant">
+          what do you want to ask?<span class="ask-cursor"></span>
+        </div>
+      </div>
+      <input
+        type="text"
+        id="askHiddenInput"
+        class="ask-hidden-input"
+        autocomplete="off"
+      />
+    </div>
+
+  <div class="main-wrap">
+    <div class="container page-shell">
+      <header class="edu-page-header">
+        <a href="../index.html" class="page-back">← Back to home</a>
+        <h1 class="blog-page-title">Education</h1>
+        <p class="page-intro">
+          A timeline of the schools and institutions that shaped my learning
+          journey.
+        </p>
+      </header>
+
+      <section class="edu-timeline" aria-label="Education timeline">
+        <div class="edu-timeline-line" aria-hidden="true"></div>
+        <ol class="edu-timeline-list">
+          <li class="edu-timeline-item">
+            <div class="edu-timeline-dot" aria-hidden="true"></div>
+            <div class="edu-timeline-content">
+              <div class="edu-timeline-years">2022 — 2026</div>
+              <article class="edu-card">
+                <div class="edu-card-header">
+                  <div class="edu-card-heading">
+                    <h2 class="edu-card-title">Negros Oriental State University</h2>
+                    <p class="edu-card-campus">Bais Campus</p>
+                  </div>
+                  <span class="edu-badge">Graduate</span>
+                </div>
+                <p class="edu-card-note">
+                  Graduated with a bachelor's degree and focused coursework in
+                  the chosen field of study.
+                </p>
+              </article>
+            </div>
+          </li>
+
+          <li class="edu-timeline-item">
+            <div class="edu-timeline-dot" aria-hidden="true"></div>
+            <div class="edu-timeline-content">
+              <div class="edu-timeline-years">2020 — 2022</div>
+              <article class="edu-card">
+                <div class="edu-card-header">
+                  <div class="edu-card-heading">
+                    <h2 class="edu-card-title">Domingo Ledesma Mapa High School</h2>
+                  </div>
+                  <span class="edu-badge">Senior High School</span>
+                </div>
+                <p class="edu-card-note">
+                  Completed senior high school with emphasis on college
+                  preparatory subjects.
+                </p>
+              </article>
+            </div>
+          </li>
+
+          <li class="edu-timeline-item">
+            <div class="edu-timeline-dot" aria-hidden="true"></div>
+            <div class="edu-timeline-content">
+              <div class="edu-timeline-years">2016 — 2020</div>
+              <article class="edu-card">
+                <div class="edu-card-header">
+                  <div class="edu-card-heading">
+                    <h2 class="edu-card-title">Domingo Ledesma Mapa High School</h2>
+                  </div>
+                  <span class="edu-badge">Junior High School</span>
+                </div>
+                <p class="edu-card-note">
+                  Finished junior high school, building the academic foundation
+                  for higher studies.
+                </p>
+              </article>
+            </div>
+          </li>
+
+          <li class="edu-timeline-item">
+            <div class="edu-timeline-dot" aria-hidden="true"></div>
+            <div class="edu-timeline-content">
+              <div class="edu-timeline-years">2015 — 2016</div>
+              <article class="edu-card">
+                <div class="edu-card-header">
+                  <div class="edu-card-heading">
+                    <h2 class="edu-card-title">Dona Loreto Ledesma Mapa Memorial School</h2>
+                  </div>
+                  <span class="edu-badge">Elementary</span>
+                </div>
+                <p class="edu-card-note">Completed elementary education.</p>
+              </article>
+            </div>
+          </li>
+        </ol>
+      </section>
+    </div>
+  </div>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

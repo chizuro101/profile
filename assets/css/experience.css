@@ -1,0 +1,162 @@
+/* EXPERIENCE STYLES */
+.exp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 40px;
+}
+
+.exp-item {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 32px;
+  padding: 28px 0;
+  border-top: 1px solid var(--hairline);
+  transition: background 0.2s ease;
+}
+
+.exp-item:first-child {
+  border-top: none;
+}
+
+@media (max-width: 680px) {
+  .exp-item {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 24px 0;
+  }
+  .exp-year {
+    padding-top: 0;
+    font-size: 13px;
+  }
+  .exp-content {
+    gap: 16px;
+  }
+  .exp-company-logo {
+    width: 48px;
+    height: 48px;
+    font-size: 16px;
+  }
+}
+
+.exp-year {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 15px;
+  color: var(--muted);
+  font-weight: 600;
+  padding-top: 6px;
+  letter-spacing: 0.02em;
+}
+
+.exp-content {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.exp-company-logo {
+  width: 56px;
+  height: 56px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--text);
+  font-size: 18px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.exp-item:hover .exp-company-logo {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.exp-role {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.exp-company {
+  color: var(--muted);
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.exp-date {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 12px;
+  font-family: "Courier New", Courier, monospace;
+  letter-spacing: 0.02em;
+}
+
+.exp-desc {
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+.exp-item {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 32px;
+}
+
+.exp-year {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 15px;
+  color: var(--muted);
+  font-weight: 600;
+  padding-top: 6px;
+}
+
+.exp-content {
+  display: flex;
+  gap: 20px;
+}
+
+.exp-company-logo {
+  width: 56px;
+  height: 56px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--text);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.exp-role {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.exp-company {
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.exp-date {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.exp-desc {
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 16px;
+}

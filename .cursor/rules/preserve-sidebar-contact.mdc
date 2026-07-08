@@ -1,0 +1,22 @@
+---
+description: Do not modify the sidebar contact block (email section)
+alwaysApply: true
+---
+
+# Preserve sidebar contact block
+
+Do not edit, restyle, or refactor the sidebar contact section unless the user explicitly asks to change it.
+
+Protected markup (same across pages):
+
+- `.contact-block` wrapper
+- `.contact-email` link with `johnmarkdelacruzii5@gmail.com`
+- Copy: "For work, collabs & everything else, reach me at"
+
+Protected CSS in `assets/css/styles.css` and `assets/css/blog.css`:
+
+- `.contact-block`
+- `.contact-email`
+- `.contact-email svg`
+
+When fixing responsiveness or other layout issues, leave this section unchanged.

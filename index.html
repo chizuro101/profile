@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Johnmark Delacruz — AI & Software Engineer</title>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <!-- ─── MOBILE TOP BAR (name left, hamburger right) ─── -->
+    <div class="mobile-topbar">
+      <div class="mobile-brand">Johnmark Delacruz</div>
+      <label class="menu-toggle hamburger" aria-label="Open menu" aria-expanded="false" role="button" tabindex="0">
+        <input type="checkbox" class="menu-toggle-input" aria-hidden="true" tabindex="-1" />
+        <span class="hamburger-icon" aria-hidden="true">
+          <span class="line line-top"></span>
+          <span class="line line-mid"></span>
+          <span class="line line-bot"></span>
+        </span>
+      </label>
+    </div>
+    <div class="sidebar-backdrop"></div>
+
+    <!-- ─── RIGHT SIDEBAR ─── -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">Johnmark Delacruz</div>
+      <div class="sidebar-scroll">
+        <nav class="sidebar-nav">
+          <a href="pages/blog.html">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M3 9h18M9 21V9" />
+              </svg>
+            </span>
+            Blog
+          </a>
+          <a href="pages/resources.html">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path
+                  d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+                />
+              </svg>
+            </span>
+            Resources
+          </a>
+        </nav>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="nav-group">
+          <div class="nav-group-items">
+            <a href="pages/projects.html">Projects</a>
+            <a href="pages/experience.html">Experience</a>
+            <a href="pages/stack.html">Stack</a>
+            <a href="pages/certifications.html">Certifications</a>
+            <a href="pages/education.html">Education</a>
+          </div>
+        </div>
+
+        <div class="sidebar-divider"></div>
+      </div>
+      <a href="#" data-ask-trigger>
+        <div class="shortcut-row">
+          <span>Ask anything</span>
+          <div class="shortcut-keys">
+            <span class="kbd">Alt</span>
+            <span class="kbd-plus">+</span>
+            <span class="kbd">K</span>
+          </div>
+        </div>
+      </a>
+      <a href="#" data-typing-test>
+        <div class="shortcut-row">
+          <span>Typing test</span>
+          <div class="shortcut-keys">
+            <span class="kbd">Alt</span>
+            <span class="kbd-plus">+</span>
+            <span class="kbd">J</span>
+          </div>
+        </div>
+      </a>
+
+      <div class="viewers-block">
+        <div class="avatar-stack">
+          <div class="av"><img src="assets/img/char/avatar.svg" alt="" /></div>
+          <div class="av">
+            <img src="assets/img/char/avatar (1).svg" alt="" />
+          </div>
+          <div class="av">
+            <img src="assets/img/char/avatar (2).svg" alt="" />
+          </div>
+          <div class="av av-count">+52</div>
+        </div>
+        <div class="viewers-text">
+          <strong id="viewerCount">55</strong> people viewing now
+        </div>
+        <a href="#" class="community-btn" data-community-chat>
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+            />
+          </svg>
+          community chat
+        </a>
+      </div>
+
+      <div class="theme-toggle">
+        <div class="theme-btns">
+          <button class="theme-btn" data-theme="system" title="System">
+            <svg viewBox="0 0 24 24">
+              <rect x="2" y="4" width="20" height="14" rx="2" />
+              <path d="M8 20h8M12 18v2" />
+            </svg>
+          </button>
+          <button class="theme-btn" data-theme="light" title="Light">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="5" />
+              <path
+                d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+              />
+            </svg>
+          </button>
+          <button class="theme-btn active" data-theme="dark" title="Dark">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="contact-block">
+          For work, collabs & everything else, reach me at
+          <a href="mailto:johnmarkdelacruzii5@gmail.com" class="contact-email">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            johnmarkdelacruzii5@gmail.com
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Ask Anything modal -->
+    <div class="ask-overlay" id="askOverlay">
+      <a href="index.html"><span class="ask-esc-hint">Esc to close</span></a>
+      <div class="ask-inner">
+        <div class="ask-chip" id="askChip"></div>
+        <div class="ask-thinking" id="askThinking">
+          <span class="ask-thinking-dots"><span></span><span></span></span>
+          thinking...
+        </div>
+        <div class="ask-giant placeholder" id="askGiant">
+          what do you want to ask?<span class="ask-cursor"></span>
+        </div>
+      </div>
+      <input
+        type="text"
+        id="askHiddenInput"
+        class="ask-hidden-input"
+        autocomplete="off"
+      />
+    </div>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <div class="main-wrap">
+      <div class="container">
+        <!-- HERO -->
+        <div class="hero">
+          <div class="hero-grid">
+            <div class="hero-left">
+              <div class="portrait">
+                <img
+                  src="assets/img/ako.webp"
+                  alt="Johnmark Delacruz"
+                  class="profile-img"
+                  onerror="
+                    this.style.background = '#333';
+                    this.src = '';
+                  "
+                />
+              </div>
+            </div>
+
+            <div class="hero-right">
+              <h1>Johnmark Delacruz</h1>
+              <p>
+                I'm a full-stack engineer. I build modern web & mobile apps, and
+                these days I'm focused on generative AI.<br /><br />
+                Right now I'm building cool new stuff every day. I love turning
+                rough ideas into things people actually use.
+              </p>
+
+              <div class="hero-links">
+                <a href="https://github.com/chizuro101" target="_blank"
+                  >github ↗</a
+                >
+                <a
+                  href="https://linkedin.com/in/johnmark-delacruz"
+                  target="_blank"
+                  >linkedin ↗</a
+                >
+                <a
+                  href="https://www.instagram.com/jee.eym?igsh=MWcwNDh3d2txODZleg=="
+                  target="_blank"
+                  >instagram ↗</a
+                >
+                <a href="mailto:johnmarkdelacruzii5@gmail.com">email</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Updated stats-row: the first stat now opens the modal instead of linking away -->
+          <div class="stats-row">
+            <a href="#" class="stat" data-modal-open="community-modal">
+              <span class="stat-num"
+                >PLATFORMS<span class="stat-arrow">↗</span></span
+              >
+              <span class="stat-label">community</span>
+            </a>
+            <a href="pages/projects.html" class="stat">
+              <span class="stat-num">8+<span class="stat-arrow"></span></span>
+              <span class="stat-label">Projects</span>
+            </a>
+            <a href="pages/stack.html" class="stat">
+              <span class="stat-num">15+<span class="stat-arrow"></span></span>
+              <span class="stat-label">Technologies</span>
+            </a>
+            <a href="#" class="stat">
+              <span class="stat-num">1<span class="stat-arrow"></span></span>
+              <span class="stat-label">Internship</span>
+            </a>
+          </div>
+
+          <!-- Community modal — place once, anywhere in <body> -->
+          <div class="modal-overlay" id="community-modal">
+            <div class="modal-card">
+              <button class="modal-close" aria-label="Close" data-modal-close>
+                <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" /></svg>
+              </button>
+
+              <div class="modal-eyebrow">Community</div>
+              <div class="modal-title">Get in touch.</div>
+              <p class="modal-desc">
+                Where I gather ideas, and connect with others.
+              </p>
+
+              <div class="modal-group">
+                <a
+                  class="modal-row"
+                  href="https://www.facebook.com/JohnmarkQuimada.Delacruz"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span class="modal-row-name">Facebook</span>
+                  <span class="modal-row-meta">
+                    @Dela Cruz Johnmark Quimada
+                    <svg viewBox="0 0 24 24">
+                      <path d="M7 17L17 7M7 7h10v10" />
+                    </svg>
+                  </span>
+                </a>
+                <a
+                  class="modal-row"
+                  href="https://www.youtube.com/@Johnmark-v2i"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span class="modal-row-name">YouTube</span>
+                  <span class="modal-row-meta">
+                    @Johnmark-v2i
+                    <svg viewBox="0 0 24 24">
+                      <path d="M7 17L17 7M7 7h10v10" />
+                    </svg>
+                  </span>
+                </a>
+                <a
+                  class="modal-row"
+                  href="https://www.instagram.com/jee.eym?igsh=MWcwNDh3d2txODZleg=="
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span class="modal-row-name">Instagram</span>
+                  <span class="modal-row-meta">
+                    @Johnmark Delacruz
+                    <svg viewBox="0 0 24 24">
+                      <path d="M7 17L17 7M7 7h10v10" />
+                    </svg>
+                  </span>
+                </a>
+                <a
+                  class="modal-row"
+                  href="https://www.tiktok.com/@jhay.eem"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span class="modal-row-name">TikTok</span>
+                  <span class="modal-row-meta">
+                    @jhay.eem
+                    <svg viewBox="0 0 24 24">
+                      <path d="M7 17L17 7M7 7h10v10" />
+                    </svg>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOG -->
+        <section id="blog">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="section-num">01 —</span> blog
+            </div>
+            <a href="pages/blog.html" class="see-all">all posts →</a>
+          </div>
+          <div class="blog-list">
+            <a href="pages/blog.html" class="blog-item">
+              <div>
+                <div class="blog-title">
+                  My Journey Toward Becoming a Full-Stack Developer
+                </div>
+                <div class="blog-desc">
+                  Looking back at the path from "Hello, World" to shipping full
+                  products end to end.
+                </div>
+              </div>
+              <div class="blog-date">Jul 2026</div>
+            </a>
+            <a href="pages/blog.html" class="blog-item">
+              <div>
+                <div class="blog-title">
+                  What I Learned During My Internship at SSS
+                </div>
+                <div class="blog-desc">
+                  Six weeks at the SSS Bais Branch taught me more about accuracy
+                  and building tools people rely on than any classroom.
+                </div>
+              </div>
+              <div class="blog-date">Jun 2026</div>
+            </a>
+            <a href="pages/blog.html" class="blog-item">
+              <div>
+                <div class="blog-title">
+                  From Procedural PHP to Object-Oriented Programming
+                </div>
+                <div class="blog-desc">
+                  How I rebuilt an old project class by class, and what finally
+                  made OOP click.
+                </div>
+              </div>
+              <div class="blog-date">Jun 2026</div>
+            </a>
+          </div>
+        </section>
+
+        <!-- EDUCATION -->
+        <section id="education">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="section-num">02 —</span> education
+            </div>
+            <a href="pages/education.html" class="see-all">full history →</a>
+          </div>
+          <div class="rec-list">
+            <div class="rec-card">
+              <div class="rec-main">
+                <div class="rec-school">Negros Oriental State University</div>
+                <div class="rec-detail">
+                  <span>Bais Campus</span>
+                  <span class="rec-sep">·</span>
+                  <span>Graduate</span>
+                </div>
+              </div>
+              <div class="rec-period">2022 — 2026</div>
+            </div>
+            <div class="rec-card">
+              <div class="rec-main">
+                <div class="rec-school">Domingo Ledesma Mapa High School</div>
+                <div class="rec-detail">
+                  <span>Senior High School</span>
+                </div>
+              </div>
+              <div class="rec-period">2020 — 2022</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section id="projects">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="section-num">03 —</span> projects
+            </div>
+            <a href="pages/projects.html" class="see-all">all projects →</a>
+          </div>
+          <div class="projects-grid landscape">
+            <div class="slider">
+              <button class="slider--btn slider--btn__prev">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+              </button>
+
+              <div class="slides__wrapper">
+                <div class="slides">
+                  <!-- slide 1 -->
+                  <div class="slide" data-current>
+                    <div class="slide__inner">
+                      <div class="slide--image__wrapper">
+                        <img
+                          class="slide--image"
+                          src="assets/img/four.png"
+                          alt="four"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- slide 2 -->
+                  <div class="slide" data-next>
+                    <div class="slide__inner">
+                      <div class="slide--image__wrapper">
+                        <img
+                          class="slide--image"
+                          src="assets/img/one.png"
+                          alt="one"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- slide 3 -->
+                  <div class="slide" data-previous>
+                    <div class="slide__inner">
+                      <div class="slide--image__wrapper">
+                        <img
+                          class="slide--image"
+                          src="assets/img/two.png"
+                          alt="two"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="slides--infos">
+                  <!-- Slide Info 1 (four.png) -->
+                  <div class="slide-info" data-current>
+                    <div class="slide-info__inner">
+                      <div class="slide-info--text__wrapper">
+                        <div data-title class="slide-info--text">
+                          <span>Bikeshop Website</span>
+                        </div>
+                        <div data-subtitle class="slide-info--text">
+                          <span>Online Store</span>
+                        </div>
+                        <div data-description class="slide-info--text">
+                          <span
+                            >Bikeshop website for selling bikes and
+                            accessories.</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Slide Info 2 (one.png) -->
+                  <div class="slide-info" data-next>
+                    <div class="slide-info__inner">
+                      <div class="slide-info--text__wrapper">
+                        <div data-title class="slide-info--text">
+                          <span>DOMS</span>
+                        </div>
+                        <div data-subtitle class="slide-info--text">
+                          <span>SSS</span>
+                        </div>
+                        <div data-description class="slide-info--text">
+                          <span
+                            >Development of Operation Management System in
+                            SSS.</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Slide Info 3 (two.png) -->
+                  <div class="slide-info" data-previous>
+                    <div class="slide-info__inner">
+                      <div class="slide-info--text__wrapper">
+                        <div data-title class="slide-info--text">
+                          <span>E-Brgy Portal</span>
+                        </div>
+                        <div data-subtitle class="slide-info--text">
+                          <span>Barangay Services</span>
+                        </div>
+                        <div data-description class="slide-info--text">
+                          <span
+                            >Portal system for requesting documents and
+                            community services.</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- fullscreen toggle removed: clicking an image now opens it in an overlay -->
+
+              <button class="slider--btn slider--btn__next">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </button>
+            </div>
+
+            <div class="support">
+              <a href="https://twitter.com/DevLoop01" target="_blank">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://github.com/devloop01/voyage-slider"
+                target="_blank"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
+                  />
+                  <path d="M9 18c-4.51 2-5-2-7-2" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section id="experience">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="section-num">04 —</span> experience
+            </div>
+            <a href="pages/experience.html" class="see-all">full history →</a>
+          </div>
+
+          <div class="exp-list">
+            <div class="exp-item">
+              <div class="exp-year">2026</div>
+              <div>
+                <div class="exp-role">Lead Programmer (Capstone Project)</div>
+                <div class="exp-company">
+                  Negros Oriental State University – Bais Campus
+                </div>
+              </div>
+            </div>
+
+            <div class="exp-item">
+              <div class="exp-year">2025</div>
+              <div>
+                <div class="exp-role">Student Trainee</div>
+                <div class="exp-company">Social Security System (SSS)</div>
+              </div>
+            </div>
+
+            <div class="exp-item">
+              <div class="exp-year">2024 — 2026</div>
+              <div>
+                <div class="exp-role">Freelance AI Data Annotator</div>
+                <div class="exp-company">Remotask</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 28px">
+            <div class="section-header" style="margin-bottom: 0">
+              <div class="section-title">Tech Stack</div>
+              <a href="pages/stack.html" class="see-all">view all →</a>
+            </div>
+
+            <div class="stack-wrap">
+              <span class="stack-tag">HTML5</span>
+              <span class="stack-tag">CSS3</span>
+              <span class="stack-tag">JavaScript</span>
+              <span class="stack-tag">PHP</span>
+              <span class="stack-tag">Laravel</span>
+              <span class="stack-tag">MySQL</span>
+              <span class="stack-tag">SQLite</span>
+              <span class="stack-tag">Bootstrap</span>
+              <span class="stack-tag">Git</span>
+              <span class="stack-tag">GitHub</span>
+              <span class="stack-tag">Python</span>
+              <span class="stack-tag">OpenAI API</span>
+              <a
+                href="pages/stack.html"
+                class="stack-tag"
+                style="color: var(--muted)"
+                >+ more</a
+              >
+            </div>
+          </div>
+        </section>
+
+        <!-- AFFILIATIONS -->
+        <section id="affiliations">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="section-num">06 —</span> what i can offer
+            </div>
+            <a href="pages/affiliations.html" class="see-all">
+              read full details →
+            </a>
+          </div>
+
+          <div class="aff-list">
+            <div class="aff-card">
+              <div class="aff-name">Problem Solving</div>
+              <div class="aff-role">Analytical & Solution-Oriented</div>
+            </div>
+
+            <div class="aff-card">
+              <div class="aff-name">Full-Stack Development</div>
+              <div class="aff-role">Frontend & Backend Development</div>
+            </div>
+
+            <div class="aff-card">
+              <div class="aff-name">UI/UX Design</div>
+              <div class="aff-role">Responsive & User-Focused</div>
+            </div>
+
+            <div class="aff-card">
+              <div class="aff-name">Leadership</div>
+              <div class="aff-role">Lead Programmer Experience</div>
+            </div>
+
+            <div class="aff-card">
+              <div class="aff-name">Continuous Learning</div>
+              <div class="aff-role">Always Improving</div>
+            </div>
+
+            <div class="aff-card">
+              <div class="aff-name">Professionalism</div>
+              <div class="aff-role">Reliable & Collaborative</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CERTIFICATIONS -->
+        <section id="certifications">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="section-num">05 —</span> certifications
+            </div>
+            <a href="pages/certifications.html" class="see-all"
+              >all certifications →</a
+            >
+          </div>
+          <div class="cert-list">
+            <div class="cert-item">
+              <div class="cert-left">
+                <div class="cert-name">
+                  Protecting Data in the Digital Age: An Introduction to
+                  Cybersecurity
+                </div>
+                <div class="cert-issuer">April 25, 2026</div>
+              </div>
+              <a href="#" class="verify-btn">Verify ↗</a>
+            </div>
+            <div class="cert-item">
+              <div class="cert-left">
+                <div class="cert-name">
+                  Social Engineering: The Human Side of Hacking
+                </div>
+                <div class="cert-issuer">April 25, 2026</div>
+              </div>
+              <a href="#" class="verify-btn">Verify ↗</a>
+            </div>
+            <div class="cert-item">
+              <div class="cert-left">
+                <div class="cert-name">
+                  Internet of Things (IoT): The Emerging and Transformative
+                  Technology
+                </div>
+                <div class="cert-issuer">December 10, 2024</div>
+              </div>
+              <a href="#" class="verify-btn">Verify ↗</a>
+            </div>
+          </div>
+        </section>
+        
+        <!-- GITHUB -->
+        <section id="github">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="section-num">07 —</span> github
+            </div>
+            <a
+              href="https://github.com/chizuro101"
+              target="_blank"
+              class="see-all"
+              >@chizuro101 ↗</a
+            >
+          </div>
+          <div class="github-block">
+            <div class="github-handle">@chizuro101</div>
+            <div class="github-sub">1,831 contributions in the last year</div>
+            <div class="contrib-grid" id="contribGrid"></div>
+          </div>
+        </section>
+      </div>
+      <!-- /container -->
+
+      <footer>
+        <div class="container">
+          <p>
+            © 2026 Johnmark Delacruz ·
+            <a href="mailto:johnmarkdelacruzii5@gmail.com"
+              >johnmarkdelacruzii5@gmail.com</a
+            >
+          </p>
+        </div>
+      </footer>
+    </div>
+    <!-- /main-wrap -->
+
+    <script src="assets/js/main.js"></script>
+    <script type="module" src="assets/js/slider.js"></script>
+  </body>
+</html>
