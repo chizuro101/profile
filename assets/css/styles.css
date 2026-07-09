@@ -1582,7 +1582,7 @@ body.light {
     justify-content: center;
   }
   .portrait {
-    width: min(200px, 70vw);
+    width: min(260px, 75vw);
     height: auto;
     aspect-ratio: 1;
   }
