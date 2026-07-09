@@ -3900,3 +3900,20 @@ body.light {
   }
 }
 
+/* ─── ACTIVE NAV LINK (arrow indicator for current page) ─── */
+.sidebar-nav a.active,
+.nav-group-items a.active {
+  color: var(--text);
+  font-weight: 600;
+}
+ 
+.sidebar-nav a.active .nav-icon {
+  color: var(--text);
+}
+ 
+.sidebar-nav a.active::before,
+.nav-group-items a.active::before {
+  content: "→";
+  color: var(--muted);
+  font-weight: 400;
+}

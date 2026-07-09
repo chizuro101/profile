@@ -812,3 +812,21 @@ it's working much harder than i am right now.`;
     }
   });
 })();
+
+// ─── Active nav link (arrow indicator for current page) ───
+document.addEventListener('DOMContentLoaded', () => {
+  const currentFile = location.pathname.split('/').pop() || 'index.html';
+
+  document.querySelectorAll('.sidebar-nav a, .nav-group-items a').forEach(link => {
+    const href = link.getAttribute('href');
+
+    // skip placeholders, external links, mailto, and downloadable files like the resume
+    if (!href || href === '#' || href.startsWith('http') || href.startsWith('mailto:')) return;
+    if (link.hasAttribute('target')) return; // e.g. Resume PDF opens in a new tab
+
+    const linkFile = href.split('/').pop();
+    if (linkFile === currentFile) {
+      link.classList.add('active');
+    }
+  });
+});
