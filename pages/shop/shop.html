@@ -1,18 +1,30 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Blog — Johnmark Delacruz</title>
-    <link rel="stylesheet" href="../assets/css/blog.css" />
-    <link rel="icon" type="image/png" href="../assets/img/logo/profile.svg">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop — Johnmark Delacruz</title>
+    <link rel="stylesheet" href="../../assets/css/shop.css" />
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+    <link rel="icon" type="image/png" href="../../assets/img/logo/profile.svg">
   </head>
   <body>
     <!-- ─── MOBILE TOP BAR (name left, hamburger right) ─── -->
     <div class="mobile-topbar">
       <div class="mobile-brand">Johnmark Delacruz</div>
-      <label class="menu-toggle hamburger" aria-label="Open menu" aria-expanded="false" role="button" tabindex="0">
-        <input type="checkbox" class="menu-toggle-input" aria-hidden="true" tabindex="-1" />
+      <label
+        class="menu-toggle hamburger"
+        aria-label="Open menu"
+        aria-expanded="false"
+        role="button"
+        tabindex="0"
+      >
+        <input
+          type="checkbox"
+          class="menu-toggle-input"
+          aria-hidden="true"
+          tabindex="-1"
+        />
         <span class="hamburger-icon" aria-hidden="true">
           <span class="line line-top"></span>
           <span class="line line-mid"></span>
@@ -27,7 +39,7 @@
       <div class="sidebar-logo">Johnmark Delacruz</div>
       <div class="sidebar-scroll">
         <nav class="sidebar-nav">
-          <a href="blog.html">
+          <a href="../blog.html">
             <span class="nav-icon">
               <svg viewBox="0 0 24 24">
                 <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -36,7 +48,7 @@
             </span>
             Blog
           </a>
-          <a href="resources.html">
+          <a href="../resources.html">
             <span class="nav-icon">
               <svg viewBox="0 0 24 24">
                 <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
@@ -47,7 +59,7 @@
             </span>
             Resources
           </a>
-          <a href="shop.html">
+          <a href="../shop/shop.html">
             <span class="nav-icon">
               <svg viewBox="0 0 24 24">
                 <path d="M5 10h14l-1.2 9H6.2L5 10Z" />
@@ -61,10 +73,15 @@
 
           <div class="sidebar-divider"></div>
           
-          <a href="../assets/img/document/Johnmark_Delacruz.pdf" target="_blank">
+          <a
+            href="../../assets/img/document/Johnmark_Delacruz.pdf"
+            target="_blank"
+          >
             <span class="nav-icon">
               <svg viewBox="0 0 24 24">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                />
                 <polyline points="14 2 14 8 20 8" />
                 <line x1="16" y1="13" x2="8" y2="13" />
                 <line x1="16" y1="17" x2="8" y2="17" />
@@ -79,11 +96,11 @@
 
         <div class="nav-group">
           <div class="nav-group-items">
-            <a href="projects.html">Projects</a>
-            <a href="experience.html">Experience</a>
-            <a href="stack.html">Stack</a>
-            <a href="certifications.html">Certifications</a>
-            <a href="education.html">Education</a>
+            <a href="../pages/projects.html">Projects</a>
+            <a href="../experience.html">Experience</a>
+            <a href="../stack.html">Stack</a>
+            <a href="../certifications.html">Certifications</a>
+            <a href="../education.html">Education</a>
           </div>
         </div>
 
@@ -112,12 +129,14 @@
 
       <div class="viewers-block">
         <div class="avatar-stack">
-          <div class="av"><img src="../assets/img/char/avatar.svg" alt="" /></div>
           <div class="av">
-            <img src="../assets/img/char/avatar (1).svg" alt="" />
+            <img src="../../assets/img/char/avatar.svg" alt="" />
           </div>
           <div class="av">
-            <img src="../assets/img/char/avatar (2).svg" alt="" />
+            <img src="../../assets/img/char/avatar (1).svg" alt="" />
+          </div>
+          <div class="av">
+            <img src="../../assets/img/char/avatar (2).svg" alt="" />
           </div>
           <div class="av av-count">+52</div>
         </div>
@@ -174,7 +193,7 @@
 
     <!-- Ask Anything modal -->
     <div class="ask-overlay" id="askOverlay">
-      <a href="blog.html"><span class="ask-esc-hint">Esc to close</span></a>
+      <a href="../shop/shop.html"><span class="ask-esc-hint">Esc to close</span></a>
       <div class="ask-inner">
         <div class="ask-chip" id="askChip"></div>
         <div class="ask-thinking" id="askThinking">
@@ -194,146 +213,118 @@
     </div>
 
     <div class="main-wrap">
-      <div class="container page-shell">
-        <div class="blog-page-header">
-          <div class="blog-page-heading">
-            <a href="../index.html" class="page-back">← Back to home</a>
-            <h1 class="blog-page-title">blog</h1>
-          </div>
-          <div class="view-toggle">
-            <button class="view-btn active" aria-label="List view">
-              <svg viewBox="0 0 24 24">
-                <line x1="4" y1="6" x2="20" y2="6" />
-                <line x1="4" y1="12" x2="20" y2="12" />
-                <line x1="4" y1="18" x2="20" y2="18" />
-              </svg>
-            </button>
-            <button class="view-btn" aria-label="Grid view">
-              <svg viewBox="0 0 24 24">
-                <rect x="4" y="4" width="7" height="7" rx="1" />
-                <rect x="13" y="4" width="7" height="7" rx="1" />
-                <rect x="4" y="13" width="7" height="7" rx="1" />
-                <rect x="13" y="13" width="7" height="7" rx="1" />
-              </svg>
-            </button>
+      <div class="page">
+      <!-- Back link -->
+      <a href="../../pages/shop.html" class="back-link">&#8249; shop</a>
+
+      <!-- Hero: preview + info -->
+      <div class="hero">
+        <!-- Left: resume preview card -->
+        <div class="preview-wrap">
+          <div class="preview-card">
+            <p class="preview-label">E Template</p>
+            <div class="resume-doc">
+              <div class="resume-name-bar"></div>
+              <div class="resume-line dark" style="width: 70%"></div>
+              <div class="resume-line light" style="width: 55%"></div>
+              <div class="resume-line dark" style="width: 80%"></div>
+              <div class="resume-line light" style="width: 45%"></div>
+              <div class="resume-line dark" style="width: 75%"></div>
+              <div class="resume-line light" style="width: 35%"></div>
+              <div class="resume-line dark" style="width: 65%"></div>
+              <div class="resume-line light" style="width: 40%"></div>
+              <div class="resume-line dark" style="width: 60%"></div>
+              <div class="resume-line light" style="width: 30%"></div>
+              <div class="resume-line dark" style="width: 50%"></div>
+              <div class="resume-line light" style="width: 25%"></div>
+            </div>
+            <div class="dotted-pattern"></div>
+            <p class="preview-footer">in Word or Google Docs</p>
           </div>
         </div>
-        <p class="blog-page-sub">
-          Thoughts, tutorials, and notes on AI, engineering, and building
-          things.
-        </p>
 
-        <div class="post-list">
-          <a
-            href="../../pages/posts/developer.html"
-            class="post-item"
-          >
-            <div class="post-thumb dots">
-              <img src="../assets/img/journey.webp" alt="" />
-            </div>
-            <div class="post-meta">
-              <div class="post-meta-top">Jul 2026</div>
-              <div class="post-title">
-                My Journey Toward Becoming a Full-Stack Developer
-              </div>
-              <p class="post-excerpt">
-                Looking back at the path from writing my first "Hello, World" to
-                shipping full products end to end — the detours, the frameworks
-                I outgrew, and what actually stuck.
-              </p>
-              <div class="post-meta-bottom">Read · 7 min</div>
-            </div>
+        <!-- Right: product info -->
+        <div class="product-info">
+          <p class="product-eyebrow">TEMPLATE</p>
+          <h1 class="product-title">Developer Resume Template</h1>
+          <p class="product-price">Free</p>
+          <a href="../../assets/img/document/developer-resume-template.docx" class="download-btn">
+            Download free
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
           </a>
-
-          <a
-            href="../../pages/posts/internship.html"
-            class="post-item"
-          >
-            <div class="post-thumb dots">
-              <img src="../assets/img/ojt.webp" alt="" />
-            </div>
-            <div class="post-meta">
-              <div class="post-meta-top">Jun 2026</div>
-              <div class="post-title">
-                What I Learned During My Internship at SSS
-              </div>
-              <p class="post-excerpt">
-                Six weeks at the Social Security System Bais Branch taught me
-                more about accuracy, patience, and building tools people
-                actually rely on than any classroom ever could.
-              </p>
-              <div class="post-meta-bottom">Read · 6 min</div>
-            </div>
-          </a>
-
-          <a href="../../pages/posts/programming.html" class="post-item">
-            <div class="post-thumb dots">
-              <img src="../assets/img/observability.webp" alt="" />
-            </div>
-            <div class="post-meta">
-              <div class="post-meta-top">Jun 2026</div>
-              <div class="post-title">
-                From Procedural PHP to Object-Oriented Programming
-              </div>
-              <p class="post-excerpt">
-                The moment procedural code stops scaling is obvious in
-                hindsight. Here's how I rebuilt an old project class by class,
-                and what finally made OOP click.
-              </p>
-              <div class="post-meta-bottom">Read · 5 min</div>
-            </div>
-          </a>
-
-          <a
-            href="../../pages/posts/auth.html"
-            class="post-item"
-          >
-            <div class="post-thumb">
-              <div class="post-thumb-diagram">
-                <img src="../assets/img/ai-products.webp" alt="" />
-              </div>
-            </div>
-            <div class="post-meta">
-              <div class="post-meta-top">May 2026</div>
-              <div class="post-title">
-                Building a Secure Authentication System with PHP
-              </div>
-              <p class="post-excerpt">
-                Password hashing, session hardening, and rate limiting — a
-                practical walkthrough of the authentication layer I wish I'd
-                built the first time around.
-              </p>
-              <div class="post-meta-bottom">Read · 8 min</div>
-            </div>
-          </a>
-
-          <a
-            href="../../pages/posts/system.html"
-            class="post-item"
-          >
-            <div class="post-thumb">
-              <div class="post-thumb-diagram">
-                <img src="../assets/img/work.webp" alt="" />
-              </div>
-            </div>
-            <div class="post-meta">
-              <div class="post-meta-top">May 2026</div>
-              <div class="post-title">
-                How I Built a Barangay Information Management System Using PHP
-              </div>
-              <p class="post-excerpt">
-                Digitizing resident records, certificate requests, and blotter
-                reports for a local barangay — and the small-scale,
-                real-constraints decisions that shaped the schema.
-              </p>
-              <div class="post-meta-bottom">Read · 6 min</div>
-            </div>
-          </a>
+          <p class="delivery-note">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            Instant digital delivery
+          </p>
         </div>
       </div>
-    </div>
 
-    <script>
+      <!-- Divider -->
+      <hr class="divider" />
+
+      <!-- Description -->
+      <p class="description">
+        A clean, <strong>ATS-friendly resume template</strong> for software
+        developers — editable in Microsoft Word or Google Docs.
+      </p>
+
+      <!-- Bullet list -->
+      <ul class="feature-list">
+        <li>
+          A one-page <span class="tag">.docx</span> template with a
+          professional, recruiter-friendly layout
+        </li>
+        <li>
+          Pre-filled <strong>example content for a developer</strong> — just
+          swap in your own
+        </li>
+        <li>
+          Clear sections and sensible defaults that parse well in applicant
+          tracking systems
+        </li>
+      </ul>
+
+      <!-- Divider -->
+      <hr class="divider" />
+
+      <!-- Footer copy -->
+      <p class="sections-line">
+        Education · Work Experience · Projects · Activities · Skills &amp;
+        Certifications
+      </p>
+      <p class="cta-line">
+        Just download, open in Word or Google Docs, and edit away — completely
+        free.
+      </p>
+    </div>
+  </div>
+  <script>
       document.addEventListener("DOMContentLoaded", () => {
         const listBtn = document.querySelector(
           '.view-btn[aria-label="List view"]',
@@ -364,6 +355,6 @@
         }
       });
     </script>
-    <script src="../assets/js/main.js"></script>
+    <script src="../../assets/js/main.js"></script>
   </body>
 </html>

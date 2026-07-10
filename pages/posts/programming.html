@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      Building a Secure Authentication System with PHP — Johnmark Delacruz
+    </title>
+    <meta
+      name="description"
+      content="A practical, premium walkthrough of building a secure authentication layer in PHP: password hashing, sessions, CSRF protection, and rate limiting done right."
+    />
+    <meta
+      name="keywords"
+      content="PHP, authentication, security, password hashing, sessions, web security, backend"
+    />
+    <meta name="author" content="Johnmark Delacruz" />
+    <link
+      rel="canonical"
+      href="https://johnmarkdelacruz.dev/pages/posts/auth.html"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:title"
+      content="Building a Secure Authentication System with PHP"
+    />
+    <meta
+      property="og:description"
+      content="Password hashing, session hardening, and rate limiting — a practical walkthrough of the authentication layer I wish I'd built the first time."
+    />
+    <meta
+      property="og:image"
+      content="https://johnmarkdelacruz.dev/assets/img/ai-products.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://johnmarkdelacruz.dev/pages/posts/auth.html"
+    />
+    <meta property="article:published_time" content="2026-05-18" />
+    <meta property="article:section" content="Engineering" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../../assets/img/logo/profile.svg"
+    />
+    <link rel="stylesheet" href="../../assets/css/blog.css" />
+    <link rel="stylesheet" href="../../assets/css/auth.css" />
+  </head>
+
+  <body>
+    <!-- ─── MOBILE TOP BAR ─── -->
+    <div class="mobile-topbar">
+      <div class="mobile-brand">Johnmark Delacruz</div>
+      <label
+        class="menu-toggle hamburger"
+        aria-label="Open menu"
+        aria-expanded="false"
+        role="button"
+        tabindex="0"
+      >
+        <input
+          type="checkbox"
+          class="menu-toggle-input"
+          aria-hidden="true"
+          tabindex="-1"
+        />
+        <span class="hamburger-icon" aria-hidden="true">
+          <span class="line line-top"></span>
+          <span class="line line-mid"></span>
+          <span class="line line-bot"></span>
+        </span>
+      </label>
+    </div>
+    <div class="sidebar-backdrop"></div>
+
+    <!-- ─── RIGHT SIDEBAR (reused from portfolio) ─── -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">Johnmark Delacruz</div>
+      <div class="sidebar-scroll">
+        <nav class="sidebar-nav">
+          <a href="../../pages/blog.html" class="active">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M3 9h18M9 21V9" />
+              </svg>
+            </span>
+            Blog
+          </a>
+          <a href="../../pages/resources.html">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path
+                  d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+                />
+              </svg>
+            </span>
+            Resources
+          </a>
+          <a href="../../pages/shop.html">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M5 10h14l-1.2 9H6.2L5 10Z" />
+                <path d="M9 10V7a3 3 0 0 1 6 0v3" />
+                <path d="M9 13v1" />
+                <path d="M15 13v1" />
+              </svg>
+            </span>
+            Shop
+          </a>
+
+          <div class="sidebar-divider"></div>
+
+          <a
+            href="../../assets/img/document/Johnmark_Delacruz.pdf"
+            target="_blank"
+          >
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+            </span>
+            Resume
+          </a>
+        </nav>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="nav-group">
+          <div class="nav-group-items">
+            <a href="../../pages/projects.html">Projects</a>
+            <a href="../../pages/experience.html">Experience</a>
+            <a href="../../pages/stack.html">Stack</a>
+            <a href="../../pages/certifications.html">Certifications</a>
+            <a href="../../pages/education.html">Education</a>
+          </div>
+        </div>
+
+        <div class="sidebar-divider"></div>
+      </div>
+      <a href="#" data-ask-trigger>
+        <div class="shortcut-row">
+          <span>Ask anything</span>
+          <div class="shortcut-keys">
+            <span class="kbd">Alt</span>
+            <span class="kbd-plus">+</span>
+            <span class="kbd">K</span>
+          </div>
+        </div>
+      </a>
+      <a href="#" data-typing-test>
+        <div class="shortcut-row">
+          <span>Typing test</span>
+          <div class="shortcut-keys">
+            <span class="kbd">Alt</span>
+            <span class="kbd-plus">+</span>
+            <span class="kbd">J</span>
+          </div>
+        </div>
+      </a>
+
+      <div class="viewers-block">
+        <div class="avatar-stack">
+          <div class="av">
+            <img src="../../assets/img/char/avatar.svg" alt="" />
+          </div>
+          <div class="av">
+            <img src="../../assets/img/char/avatar (1).svg" alt="" />
+          </div>
+          <div class="av">
+            <img src="../../assets/img/char/avatar (2).svg" alt="" />
+          </div>
+          <div class="av av-count">+52</div>
+        </div>
+        <div class="viewers-text">
+          <strong id="viewerCount">55</strong> people viewing now
+        </div>
+        <a href="#" class="community-btn" data-community-chat>
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+            />
+          </svg>
+          community chat
+        </a>
+      </div>
+
+      <div class="theme-toggle">
+        <div class="theme-btns">
+          <button class="theme-btn" data-theme="system" title="System">
+            <svg viewBox="0 0 24 24">
+              <rect x="2" y="4" width="20" height="14" rx="2" />
+              <path d="M8 20h8M12 18v2" />
+            </svg>
+          </button>
+          <button class="theme-btn" data-theme="light" title="Light">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="5" />
+              <path
+                d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+              />
+            </svg>
+          </button>
+          <button class="theme-btn active" data-theme="dark" title="Dark">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="contact-block">
+          For work, collabs & everything else, reach me at
+          <a href="mailto:johnmarkdelacruzii5@gmail.com" class="contact-email">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            johnmarkdelacruzii5@gmail.com
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Ask Anything modal (reused) -->
+    <div class="ask-overlay" id="askOverlay">
+      <a href="../../pages/posts/programming.html"
+        ><span class="ask-esc-hint">Esc to close</span></a
+      >
+      <div class="ask-inner">
+        <div class="ask-chip" id="askChip"></div>
+        <div class="ask-thinking" id="askThinking">
+          <span class="ask-thinking-dots"><span></span><span></span></span>
+          thinking...
+        </div>
+        <div class="ask-giant placeholder" id="askGiant">
+          what do you want to ask?<span class="ask-cursor"></span>
+        </div>
+      </div>
+      <input
+        type="text"
+        id="askHiddenInput"
+        class="ask-hidden-input"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="none"
+        spellcheck="false"
+      />
+    </div>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <div class="main-wrap">
+      <main class="container">
+        <article class="article-wrap">
+          <a href="../../pages/blog.html" class="article-back article-fade">
+            ← Back to blog
+          </a>
+
+          <header class="article-header">
+            <div class="article-meta">
+              <time>JUN 20, 2026</time>
+              <span>·</span>
+              <span>5 MIN READ</span>
+            </div>
+
+            <h1 class="article-title">
+              From Procedural PHP to Object-Oriented Programming
+            </h1>
+
+            <p class="article-description">
+              Looking back at how rewriting one of my early PHP projects taught
+              me why Object-Oriented Programming isn't just a programming
+              style—it's a better way to build software that lasts.
+            </p>
+          </header>
+
+          <div class="article-divider"></div>
+
+          <div class="article-author">
+            <img src="../../assets/img/profile.webp" alt="Johnmark Delacruz" />
+
+            <div>
+              <strong>Johnmark Delacruz</strong>
+            </div>
+          </div>
+
+          <div class="article-hero article-fade delay">
+            <img
+              src="../../assets/img/observability.webp"
+              alt="Procedural PHP to Object-Oriented Programming"
+              onerror="
+                this.style.background = '#1a1a1a';
+                this.src = '';
+              "
+            />
+          </div>
+
+          <div class="article-body article-fade delay">
+            <p>
+              When I first started learning PHP, everything lived inside a
+              single file. Database connections, HTML, form validation, and
+              business logic were mixed together. At the time, it felt efficient
+              because I could quickly build working applications. As my projects
+              became larger, however, that approach became increasingly
+              difficult to manage.
+            </p>
+
+            <h4>The Limits of Procedural Programming</h4>
+
+            <p>
+              Procedural PHP gave me a solid understanding of the language's
+              fundamentals. It was simple, straightforward, and perfect for
+              small projects. But once I started developing management systems
+              with multiple modules, I found myself copying the same functions
+              across different files and repeating database queries everywhere.
+            </p>
+
+            <p>
+              Every new feature required editing several pages, and tracking
+              down bugs became frustrating. Although the applications still
+              worked, maintaining them became more time-consuming than building
+              new features.
+            </p>
+
+            <h4>Discovering Object-Oriented Programming</h4>
+
+            <p>
+              Learning Object-Oriented Programming completely changed how I
+              thought about software development. Instead of organizing my
+              application around pages, I began organizing it around
+              responsibilities. Each class represented a single part of the
+              system, making the codebase cleaner and much easier to understand.
+            </p>
+
+            <p>
+              I separated database connections, authentication, user management,
+              and business logic into their own classes. Rather than copying
+              code from one page to another, I could simply reuse methods
+              whenever they were needed.
+            </p>
+
+            <h4>Applying It to Real Projects</h4>
+
+            <p>
+              The biggest difference became obvious while developing larger
+              systems such as my Barangay Information Management System and our
+              Operations Management System. OOP allowed me to build modular
+              components that could be maintained independently without
+              affecting the rest of the application.
+            </p>
+
+            <p>
+              Debugging also became much easier. When an issue occurred, I
+              immediately knew which class was responsible instead of searching
+              through hundreds of lines of mixed PHP and HTML.
+            </p>
+
+            <blockquote>
+              The goal of Object-Oriented Programming isn't to write more
+              code—it's to write code that's easier to understand, reuse, and
+              maintain.
+            </blockquote>
+
+            <h4>Lessons That Stuck</h4>
+
+            <p>
+              At first, concepts like classes, constructors, inheritance, and
+              encapsulation seemed unnecessarily complicated. But after
+              rebuilding some of my older projects, I finally understood why
+              they exist. They solve problems that naturally appear as
+              applications grow.
+            </p>
+
+            <p>
+              I also learned that good software architecture isn't about using
+              every design pattern available. It's about giving each part of
+              your application a clear responsibility and writing code that
+              another developer—or your future self—can understand months later.
+            </p>
+
+            <h4>Looking Back</h4>
+
+            <p>
+              Today, I still appreciate procedural PHP because it gave me the
+              foundation I needed to learn programming. However, Object-Oriented
+              Programming gave me the confidence to build applications that are
+              scalable, maintainable, and ready for real-world use.
+            </p>
+
+            <p>
+              Switching from procedural code to OOP wasn't simply learning a new
+              syntax. It changed the way I approach software development.
+              Instead of asking, "How can I make this work?" I now ask, "How can
+              I build this so it remains clean, flexible, and easy to improve in
+              the future?"
+            </p>
+          </div>
+
+          <!-- ───────────────────────────────────────────── -->
+          <!-- ARTICLE FOOTER -->
+          <!-- ───────────────────────────────────────────── -->
+
+          <div class="article-end-divider"></div>
+
+          <div class="article-bottom">
+            <a href="../../pages/blog.html" class="back-posts">
+              <svg viewBox="0 0 24 24" width="18" height="18">
+                <path
+                  d="M15 18l-6-6 6-6"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span>all posts</span>
+            </a>
+
+            <div class="article-share">
+              <a
+                href="https://linkedin.com/in/johnmark-delacruz"
+                target="_blank"
+                aria-label="LinkedIn"
+                class="share-btn"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 1 0-4 0v7h-4V9h4v2a4 4 0 0 1 4-3z"
+                  />
+                  <rect x="2" y="9" width="2" height="12" />
+                  <circle cx="9" cy="2" r="2" />
+                </svg>
+              </a>
+
+              <button
+                class="share-btn"
+                onclick="navigator.clipboard.writeText(window.location.href)"
+                aria-label="Copy link"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11 4"
+                  />
+                  <path
+                    d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 1 0 7.07 7.07L13 20"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <footer class="site-footer">
+            <span>© 2026 Johnmark Delacruz</span>
+
+            <a href="../../index.html"> ← back to site </a>
+          </footer>
+        </article>
+      </main>
+    </div>
+
+    <!-- JSON-LD structured data for SEO -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Building a Secure Authentication System with PHP",
+        "description": "Password hashing, session hardening, and rate limiting — a practical walkthrough of the authentication layer I wish I'd built the first time around.",
+        "image": "https://johnmarkdelacruz.dev/assets/img/ai-products.webp",
+        "datePublished": "2026-05-18",
+        "author": {
+          "@type": "Person",
+          "name": "Johnmark Delacruz",
+          "email": "johnmarkdelacruzii5@gmail.com"
+        },
+        "publisher": {
+          "@type": "Person",
+          "name": "Johnmark Delacruz"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://johnmarkdelacruz.dev/pages/posts/auth.html"
+        }
+      }
+    </script>
+
+    <script src="../../assets/js/main.js"></script>
+    <script>
+      // ─── Lightweight syntax highlighter (vanilla, no deps) ───
+      (function () {
+        const KEYWORDS = new Set([
+          "function",
+          "return",
+          "if",
+          "else",
+          "elseif",
+          "foreach",
+          "for",
+          "while",
+          "class",
+          "public",
+          "private",
+          "protected",
+          "static",
+          "new",
+          "echo",
+          "use",
+          "namespace",
+          "try",
+          "catch",
+          "throw",
+          "null",
+          "true",
+          "false",
+          "const",
+          "let",
+          "var",
+          "await",
+          "async",
+          "import",
+          "from",
+          "export",
+          "def",
+          "endforeach",
+          "endif",
+          "exit",
+          "isset",
+          "empty",
+          "require",
+          "include",
+          "print",
+        ]);
+
+        const TOKEN = new RegExp(
+          [
+            "(?<comment>/\\*[\\s\\S]*?\\*/|//[^\\n]*|#[^\\n]*)",
+            "(?<string>\"(?:\\\\.|[^\"\\\\])*\"|'(?:\\\\.|[^'\\\\])*'|`(?:\\\\.|[^`\\\\])*`)",
+            "(?<func>\\b[a-zA-Z_]\\w*(?=\\())",
+            "(?<number>\\b\\d+(?:\\.\\d+)?\\b)",
+            "(?<keyword>\\b(?:" + [...KEYWORDS].join("|") + ")\\b)",
+          ].join("|"),
+          "g",
+        );
+
+        function escapeHtml(s) {
+          return s
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+        }
+
+        function highlight(raw) {
+          const safe = escapeHtml(raw);
+          return safe.replace(TOKEN, (m, comment, str, fn, num, kw) => {
+            if (comment)
+              return '<span class="tok-comment">' + comment + "</span>";
+            if (str) return '<span class="tok-string">' + str + "</span>";
+            if (fn) return '<span class="tok-func">' + fn + "</span>";
+            if (num) return '<span class="tok-number">' + num + "</span>";
+            if (kw) return '<span class="tok-keyword">' + kw + "</span>";
+            return m;
+          });
+        }
+
+        document.querySelectorAll(".code-block code").forEach((el) => {
+          el.innerHTML = highlight(el.textContent);
+        });
+
+        // Copy button
+        document.querySelectorAll(".code-copy").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const code = btn
+              .closest(".code-block")
+              .querySelector("code").textContent;
+            navigator.clipboard?.writeText(code).then(() => {
+              const prev = btn.textContent;
+              btn.textContent = "Copied";
+              setTimeout(() => (btn.textContent = prev), 1400);
+            });
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

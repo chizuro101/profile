@@ -1,0 +1,377 @@
+/* ─── Page wrapper ─── */
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4rem 2rem 6rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ─── Back link ─── */
+.back-link {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: #71717a;
+  text-decoration: none;
+  margin-bottom: 2.5rem;
+  transition: color 0.2s;
+  align-self: flex-start;
+}
+
+.back-link:hover {
+  color: #f2f2f7;
+}
+
+/* ─── Hero layout ─── */
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+  margin-bottom: 5rem;
+  width: 100%;
+}
+
+/* ─── Preview card ─── */
+.preview-wrap {
+  flex: 0 0 420px;
+  max-width: 420px;
+}
+
+.preview-card {
+  position: relative;
+  background: #f0f0ee;
+  border-radius: 20px;
+  padding: 1.5rem 1.5rem 3.5rem;
+  overflow: hidden;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 20px 50px -12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+}
+
+.preview-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    0 30px 60px -15px rgba(0, 0, 0, 0.35);
+}
+
+.preview-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 1.2rem;
+}
+
+/* Mock resume document */
+
+.resume-doc {
+  position: relative;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 10px 35px rgba(0,0,0,.12);
+  padding: 1.2rem 1.4rem;
+  z-index: 2;
+}
+
+.resume-name-bar {
+  height: 14px;
+  width: 140px;
+  background: #1a1a1a;
+  border-radius: 2px;
+  margin-bottom: 1rem;
+}
+
+.resume-line {
+  height: 6px;
+  border-radius: 2px;
+  margin-bottom: 8px;
+}
+
+.resume-line.dark {
+  background: #555;
+}
+
+.resume-line.light {
+  background: #ccc;
+}
+
+/* Dotted pattern */
+
+.dotted-pattern {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 160px;
+  height: 140px;
+  background-image: radial-gradient(circle,#999 1px,transparent 1px);
+  background-size:10px 10px;
+  opacity:.25;
+  z-index:1;
+}
+
+.preview-footer {
+  position:absolute;
+  bottom:1rem;
+  left:1.5rem;
+  font-family:'JetBrains Mono', monospace;
+  font-size:.7rem;
+  color:#888;
+}
+
+/* ─── Product info ─── */
+
+.product-info {
+  flex: 1;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.product-eyebrow {
+  font-family:'JetBrains Mono', monospace;
+  font-size:.7rem;
+  letter-spacing:.18em;
+  color:#71717a;
+  text-transform:uppercase;
+  margin-bottom:.75rem;
+}
+
+.product-title {
+  font-size:clamp(1.8rem,4vw,2.6rem);
+  font-weight:700;
+  color:#f2f2f7;
+  line-height:1.2;
+  margin-bottom:1rem;
+}
+
+.product-price {
+  font-size:2rem;
+  font-weight:700;
+  color:#f2f2f7;
+  margin-bottom:2rem;
+}
+
+/* Download button */
+
+.download-btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.65rem;
+  padding:.9rem 2rem;
+  border-radius:999px;
+  background:#f2f2f7;
+  color:#0a0a0c;
+  font-weight:600;
+  font-size:.95rem;
+  text-decoration:none;
+  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  width:fit-content;
+  margin-bottom:1.2rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.download-btn:hover {
+  background:#fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.delivery-note {
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  font-family:'JetBrains Mono', monospace;
+  font-size:.8rem;
+  color:#71717a;
+}
+
+.delivery-note svg {
+  flex-shrink:0;
+  color:#f2f2f7;
+}
+
+/* ─── Divider ─── */
+
+.divider {
+  border:none;
+  border-top:1px solid rgba(255,255,255,.05);
+  margin:4rem 0;
+  width: 100%;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ─── Description ─── */
+
+.description {
+  max-width:760px;
+  margin:0 auto 2.5rem;
+  font-size:1.05rem;
+  line-height:1.8;
+  color:#71717a;
+  text-align:center;
+}
+
+.description strong {
+  color:#f2f2f7;
+}
+
+/* ─── Feature list ─── */
+
+.feature-list {
+  list-style:none;
+  max-width:760px;
+  margin:0 auto;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:1.2rem;
+}
+
+.feature-list li {
+  display:flex;
+  gap:.85rem;
+  align-items:flex-start;
+  color:#71717a;
+  line-height:1.7;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.feature-list li:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.08);
+}
+
+.feature-list li::before {
+  content:"";
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#71717a;
+  margin-top:.65rem;
+  flex-shrink:0;
+}
+
+.feature-list strong {
+  color:#f2f2f7;
+}
+
+.tag {
+  display:inline-block;
+  padding:.15rem .5rem;
+  border-radius:4px;
+  background:#1e1e22;
+  border:1px solid rgba(255,255,255,.07);
+  font-family:'JetBrains Mono', monospace;
+  font-size:.8rem;
+  color:#f2f2f7;
+}
+
+/* ─── Footer copy ─── */
+
+.sections-line,
+.cta-line {
+  max-width:760px;
+  margin-inline:auto;
+  text-align:center;
+  color:#71717a;
+}
+
+.sections-line {
+  margin-bottom:.75rem;
+}
+
+.sidebar-divider {
+  height: 1px;
+  margin: 1px 0 24px;
+}
+
+/* ─── Responsive ─── */
+
+@media (max-width: 768px) {
+
+  .page {
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  .hero {
+    flex-direction: column;
+    gap: 2.5rem;
+    margin: 2rem auto 3rem;
+  }
+
+  .preview-wrap {
+    width: 100%;
+    max-width: 100%;
+    flex: none;
+  }
+
+  .product-info {
+    align-items: center;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .product-title {
+    text-align: center;
+  }
+
+  .product-price {
+    text-align: center;
+  }
+
+  .product-eyebrow {
+    text-align: center;
+  }
+
+  .download-btn {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .delivery-note {
+    justify-content: center;
+  }
+
+  .feature-list li {
+    text-align: left;
+  }
+
+  .divider {
+    margin: 3rem 0;
+  }
+}
+
+/* ─── Extra small screens (< 480px) ─── */
+
+@media (max-width: 480px) {
+
+  .page {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .product-price {
+    font-size: 1.6rem;
+  }
+
+  .download-btn {
+    max-width: 100%;
+  }
+}
