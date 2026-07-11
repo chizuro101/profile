@@ -223,7 +223,7 @@
         <!-- Left: resume preview card -->
         <div class="preview-wrap">
           <div class="preview-card">
-            <p class="preview-label">E Template</p>
+            <p class="preview-label">Developer Resume</p>
             <div class="resume-doc">
               <div class="resume-name-bar"></div>
               <div class="resume-line dark" style="width: 70%"></div>
@@ -286,9 +286,6 @@
         </div>
       </div>
 
-      <!-- Divider -->
-      <hr class="divider" />
-
       <!-- Description -->
       <p class="description">
         A clean, <strong>ATS-friendly resume template</strong> for software
@@ -325,37 +322,6 @@
       </p>
     </div>
   </div>
-  <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const listBtn = document.querySelector(
-          '.view-btn[aria-label="List view"]',
-        );
-        const gridBtn = document.querySelector(
-          '.view-btn[aria-label="Grid view"]',
-        );
-        const postList = document.querySelector(".post-list");
-
-        function setView(mode) {
-          if (mode === "grid") {
-            listBtn.classList.remove("active");
-            gridBtn.classList.add("active");
-            postList.classList.add("grid");
-          } else {
-            listBtn.classList.add("active");
-            gridBtn.classList.remove("active");
-            postList.classList.remove("grid");
-          }
-          localStorage.setItem("blogView", mode);
-        }
-
-        listBtn.addEventListener("click", () => setView("list"));
-        gridBtn.addEventListener("click", () => setView("grid"));
-
-        if (localStorage.getItem("blogView") === "grid") {
-          setView("grid");
-        }
-      });
-    </script>
     <script src="../../assets/js/main.js"></script>
   </body>
 </html>

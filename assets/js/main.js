@@ -832,9 +832,22 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ─── Loading overlay ───
-window.addEventListener('load', () => {
+const LOADING_MIN_MS = 2000;
+const loadingStart = performance.now();
+
+function hideLoadingOverlay() {
   const overlay = document.querySelector('.loading-overlay');
-  if (overlay) {
-    overlay.classList.add('is-loaded');
-  }
-});
+  if (!overlay || overlay.classList.contains('is-loaded')) return;
+  const elapsed = performance.now() - loadingStart;
+  const wait = Math.max(0, LOADING_MIN_MS - elapsed);
+  setTimeout(() => overlay.classList.add('is-loaded'), wait);
+}
+
+if (document.readyState === 'complete') {
+  hideLoadingOverlay();
+} else {
+  window.addEventListener('load', hideLoadingOverlay);
+}
+
+// Safety net: never let the overlay block the page, even if `load` never fires
+setTimeout(hideLoadingOverlay, LOADING_MIN_MS + 1500);

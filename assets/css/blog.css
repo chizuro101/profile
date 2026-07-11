@@ -838,6 +838,13 @@ a:hover {
 .post-list {
   display: flex;
   flex-direction: column;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.post-list.is-transitioning {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
 }
 
 .post-item {

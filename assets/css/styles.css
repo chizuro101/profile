@@ -4106,9 +4106,10 @@ body.light {
 }
 
 .loading-logo img {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .loading-logo::before {

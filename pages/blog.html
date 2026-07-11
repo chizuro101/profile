@@ -344,18 +344,33 @@
           '.view-btn[aria-label="Grid view"]',
         );
         const postList = document.querySelector(".post-list");
+        let isTransitioning = false;
 
         function setView(mode) {
-          if (mode === "grid") {
-            listBtn.classList.remove("active");
-            gridBtn.classList.add("active");
-            postList.classList.add("grid");
-          } else {
-            listBtn.classList.add("active");
-            gridBtn.classList.remove("active");
-            postList.classList.remove("grid");
-          }
-          localStorage.setItem("blogView", mode);
+          if (isTransitioning) return;
+          isTransitioning = true;
+
+          postList.classList.add("is-transitioning");
+
+          setTimeout(() => {
+            if (mode === "grid") {
+              listBtn.classList.remove("active");
+              gridBtn.classList.add("active");
+              postList.classList.add("grid");
+            } else {
+              listBtn.classList.add("active");
+              gridBtn.classList.remove("active");
+              postList.classList.remove("grid");
+            }
+            localStorage.setItem("blogView", mode);
+
+            requestAnimationFrame(() => {
+              postList.classList.remove("is-transitioning");
+              setTimeout(() => {
+                isTransitioning = false;
+              }, 250);
+            });
+          }, 250);
         }
 
         listBtn.addEventListener("click", () => setView("list"));
