@@ -1330,6 +1330,13 @@ a:hover {
   height: 100%;
   display: block;
   object-fit: contain;
+  filter: grayscale(100%) opacity(0.6);
+  transition: filter 0.35s ease, transform 0.35s ease;
+}
+
+.exp-card:hover .exp-logo img {
+  filter: grayscale(0%) opacity(1);
+  transform: scale(1.08);
 }
 
 .exp-card-heading {
