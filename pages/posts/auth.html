@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      Building a Secure Authentication System with PHP — Johnmark Delacruz
+    </title>
+    <meta name="description" content="A practical, premium walkthrough of building a secure authentication layer in PHP: password hashing, sessions, CSRF protection, and rate limiting done right."/>
+    <meta name="keywords" content="PHP, authentication, security, password hashing, sessions, web security, backend"/>
+    <meta name="author" content="Johnmark Delacruz" />
+    <link rel="canonical" href="https://johnmarkdelacruz.dev/pages/posts/auth.html"/>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Building a Secure Authentication System with PHP"/>
+    <meta property="og:description" content="Password hashing, session hardening, and rate limiting — a practical walkthrough of the authentication layer I wish I'd built the first time."/>
+    <meta property="og:image" content="https://johnmarkdelacruz.dev/assets/img/ai-products.webp"/>
+    <meta property="og:url" content="https://johnmarkdelacruz.dev/pages/posts/auth.html"/>
+    <meta property="article:published_time" content="2026-05-18" />
+    <meta property="article:section" content="Engineering" />
+    <link rel="icon" type="image/png"href="../../assets/img/logo/profile.svg"/>
+    <link rel="stylesheet" href="../../assets/css/blog.css" />
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+    <link rel="stylesheet" href="../../assets/css/auth.css" />
+  </head>
+
+  <body>
+    <div class="loading-overlay" aria-hidden="true"><div class="loading-logo"><img src="../../assets/img/logo/profile.svg" alt=""></div></div>
+    <!-- ─── MOBILE TOP BAR ─── -->
+    <div class="mobile-topbar">
+      <div class="mobile-brand">Johnmark Delacruz</div>
+      <label
+        class="menu-toggle hamburger"
+        aria-label="Open menu"
+        aria-expanded="false"
+        role="button"
+        tabindex="0"
+      >
+        <input
+          type="checkbox"
+          class="menu-toggle-input"
+          aria-hidden="true"
+          tabindex="-1"
+        />
+        <span class="hamburger-icon" aria-hidden="true">
+          <span class="line line-top"></span>
+          <span class="line line-mid"></span>
+          <span class="line line-bot"></span>
+        </span>
+      </label>
+    </div>
+    <div class="sidebar-backdrop"></div>
+
+    <!-- ─── RIGHT SIDEBAR (reused from portfolio) ─── -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">Johnmark Delacruz</div>
+      <div class="sidebar-scroll">
+        <nav class="sidebar-nav">
+          <a href="../../pages/blog.html" class="active">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M3 9h18M9 21V9" />
+              </svg>
+            </span>
+            Blog
+          </a>
+          <a href="../../pages/resources.html">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path
+                  d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+                />
+              </svg>
+            </span>
+            Resources
+          </a>
+          <a href="../../pages/shop.html">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M5 10h14l-1.2 9H6.2L5 10Z" />
+                <path d="M9 10V7a3 3 0 0 1 6 0v3" />
+                <path d="M9 13v1" />
+                <path d="M15 13v1" />
+              </svg>
+            </span>
+            Shop
+          </a>
+
+          <div class="sidebar-divider"></div>
+
+          <a
+            href="../../assets/img/document/Johnmark_Delacruz.pdf"
+            target="_blank"
+          >
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+            </span>
+            Resume
+          </a>
+        </nav>
+
+        <div class="sidebar-divider"></div>
+
+        <div class="nav-group">
+          <div class="nav-group-items">
+            <a href="../../pages/projects.html">Projects</a>
+            <a href="../../pages/experience.html">Experience</a>
+            <a href="../../pages/stack.html">Stack</a>
+            <a href="../../pages/certifications.html">Certifications</a>
+            <a href="../../pages/education.html">Education</a>
+          </div>
+        </div>
+
+        <div class="sidebar-divider"></div>
+      </div>
+      <a href="#" data-ask-trigger>
+        <div class="shortcut-row">
+          <span>Ask anything</span>
+          <div class="shortcut-keys">
+            <span class="kbd">Alt</span>
+            <span class="kbd-plus">+</span>
+            <span class="kbd">K</span>
+          </div>
+        </div>
+      </a>
+      <a href="#" data-typing-test>
+        <div class="shortcut-row">
+          <span>Typing test</span>
+          <div class="shortcut-keys">
+            <span class="kbd">Alt</span>
+            <span class="kbd-plus">+</span>
+            <span class="kbd">J</span>
+          </div>
+        </div>
+      </a>
+
+      <div class="viewers-block">
+        <div class="avatar-stack">
+          <div class="av">
+            <img src="../../assets/img/char/avatar.svg" alt="" />
+          </div>
+          <div class="av">
+            <img src="../../assets/img/char/avatar (1).svg" alt="" />
+          </div>
+          <div class="av">
+            <img src="../../assets/img/char/avatar (2).svg" alt="" />
+          </div>
+          <div class="av av-count">+52</div>
+        </div>
+        <div class="viewers-text">
+          <strong id="viewerCount">55</strong> people viewing now
+        </div>
+        <a href="#" class="community-btn" data-community-chat>
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+            />
+          </svg>
+          community chat
+        </a>
+      </div>
+
+      <div class="theme-toggle">
+        <div class="theme-btns">
+          <button class="theme-btn" data-theme="system" title="System">
+            <svg viewBox="0 0 24 24">
+              <rect x="2" y="4" width="20" height="14" rx="2" />
+              <path d="M8 20h8M12 18v2" />
+            </svg>
+          </button>
+          <button class="theme-btn" data-theme="light" title="Light">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="5" />
+              <path
+                d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+              />
+            </svg>
+          </button>
+          <button class="theme-btn active" data-theme="dark" title="Dark">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="contact-block">
+          For work, collabs & everything else, reach me at
+          <a href="mailto:johnmarkdelacruzii5@gmail.com" class="contact-email">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            johnmarkdelacruzii5@gmail.com
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Ask Anything modal (reused) -->
+    <div class="ask-overlay" id="askOverlay">
+      <a href="../../pages/posts/auth.html"
+        ><span class="ask-esc-hint">Esc to close</span></a
+      >
+      <div class="ask-inner">
+        <div class="ask-chip" id="askChip"></div>
+        <div class="ask-thinking" id="askThinking">
+          <span class="ask-thinking-dots"><span></span><span></span></span>
+          thinking...
+        </div>
+        <div class="ask-giant placeholder" id="askGiant">
+          what do you want to ask?<span class="ask-cursor"></span>
+        </div>
+      </div>
+      <input
+        type="text"
+        id="askHiddenInput"
+        class="ask-hidden-input"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="none"
+        spellcheck="false"
+      />
+    </div>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <div class="main-wrap">
+      <main class="container">
+        <article class="article-wrap">
+          <a href="../../pages/blog.html" class="article-back article-fade">
+            ← Back to blog
+          </a>
+
+          <header class="article-header">
+            <div class="article-meta">
+              <time>May 18, 2026</time>
+              <span>·</span>
+              <span>8 min read</span>
+            </div>
+
+            <h1 class="article-title">
+              Building a Secure Authentication System with PHP
+            </h1>
+
+            <p class="article-description">
+              Learn how to build a production-ready authentication system in PHP
+              with password hashing, secure sessions, CSRF protection, and
+              brute-force prevention.
+            </p>
+          </header>
+
+          <div class="article-divider"></div>
+
+          <div class="article-author">
+            <img src="../../assets/img/profile.webp" alt="Johnmark Delacruz" />
+
+            <div>
+              <strong>Johnmark Delacruz</strong>
+            </div>
+          </div>
+
+          <div class="article-hero article-fade delay">
+            <img
+              src="../../assets/img/ai-products.webp"
+              alt="Abstract representation of a secure login system"
+              onerror="
+                this.style.background = '#1a1a1a';
+                this.src = '';
+              "
+            />
+          </div>
+
+          <div class="article-body article-fade delay">
+            <p>
+              The first authentication system I ever built stored passwords in
+              plain text. It "worked" — until the day it very obviously didn't.
+              If you are shipping anything real, security is not a feature you
+              add later; it is the foundation the rest of your app stands on.
+              This is the layer I wish I had built the first time around.
+            </p>
+
+            <p>
+              We will cover the four pieces that actually matter: hashing
+              passwords the right way, hardening sessions, protecting against
+              CSRF, and throttling brute-force attempts. No frameworks required
+              — just PHP and a clear mental model.
+            </p>
+
+            <h4>1. Hash passwords, never store them</h4>
+            <p>
+              If your database is ever leaked, a properly hashed password is
+              useless to an attacker. Use the built-in
+              <code>password_hash()</code> function with the default
+              <code>PASSWORD_DEFAULT</code> algorithm — it handles salts and
+              future-proofing for you.
+            </p>
+
+            <div class="code-block" data-lang="php">
+              <div class="code-head">
+                <span>register.php</span>
+                <button class="code-copy" type="button">Copy</button>
+              </div>
+              <pre><code class="language-php">&lt;?php
+// Always hash on the way in — never trust the raw value
+$email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+$password = $_POST['password'];
+
+$hash = password_hash($password, PASSWORD_DEFAULT);
+
+$stmt = $pdo-&gt;prepare('INSERT INTO users (email, password) VALUES (?, ?)');
+$stmt-&gt;execute([$email, $hash]);
+
+// password_verify() is the ONLY safe way to check a login
+if (password_verify($password, $storedHash)) {
+    // authenticated
+}</code></pre>
+            </div>
+
+            <div class="callout">
+              <span class="callout-icon">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="9" />
+                  <line x1="12" y1="8" x2="12" y2="13" />
+                  <line x1="12" y1="16" x2="12" y2="16" />
+                </svg>
+              </span>
+              <div class="callout-body">
+                <strong>Note · never roll your own</strong>
+                Do not use <code>md5()</code> or <code>sha1()</code> for
+                passwords. They are fast by design, which is exactly what makes
+                them easy to brute-force. <code>password_hash()</code> uses
+                bcrypt/argon2 and is deliberately slow.
+              </div>
+            </div>
+
+            <h4>2. Harden the session</h4>
+            <p>
+              A hash is only as safe as the session that remembers the user.
+              Regenerate the session ID on login so a stolen cookie from before
+              authentication is useless, and lock cookies down with strict
+              flags.
+            </p>
+
+            <div class="code-block" data-lang="php">
+              <div class="code-head">
+                <span>session.php</span>
+                <button class="code-copy" type="button">Copy</button>
+              </div>
+              <pre><code class="language-php">session_start([
+    'cookie_secure'   =&gt; true,   // HTTPS only
+    'cookie_httponly' =&gt; true,   // invisible to JS
+    'cookie_samesite' =&gt; 'Lax',   // mitigates CSRF
+]);
+
+// Rotate the ID the moment a user authenticates
+session_regenerate_id(true);
+
+$_SESSION['user_id'] = $user['id'];
+$_SESSION['auth_at'] = time();</code></pre>
+            </div>
+
+            <blockquote>
+              Authentication is not "are you who you say you are?" — it is "can
+              anyone impersonate you if they steal this token?" Design for the
+              second question.
+              <cite>— a lesson learned the expensive way</cite>
+            </blockquote>
+
+            <h4>3. Stop CSRF with tokens</h4>
+            <p>
+              Cross-site request forgery tricks a logged-in browser into sending
+              a request the user never intended. The fix is boring and
+              effective: issue a random token per session and require it on
+              every state change.
+            </p>
+
+            <div class="code-block" data-lang="php">
+              <div class="code-head">
+                <span>csrf.php</span>
+                <button class="code-copy" type="button">Copy</button>
+              </div>
+              <pre><code class="language-php">// Generate once, store in session
+if (empty($_SESSION['csrf'])) {
+    $_SESSION['csrf'] = bin2hex(random_bytes(32));
+}
+
+// On the form
+echo '&lt;input type="hidden" name="csrf" value="' . $_SESSION['csrf'] . '"&gt;';
+
+// On submit
+if (!hash_equals($_SESSION['csrf'], $_POST['csrf'] ?? '')) {
+    http_response_code(403);
+    exit('Invalid request');
+}</code></pre>
+            </div>
+
+            <h4>Why hash_equals matters</h4>
+            <p>
+              Use <code>hash_equals()</code> instead of <code>===</code> for
+              token comparison. It runs in constant time, which prevents timing
+              attacks that could otherwise leak the valid token byte by byte.
+            </p>
+
+            <h4>4. Rate limit brute force</h4>
+            <p>
+              Even great hashing can be worn down by unlimited attempts. Track
+              failed logins per account and IP, then temporarily lock the doors.
+              Here is a compact version using a small table.
+            </p>
+
+            <div class="code-block" data-lang="php">
+              <div class="code-head">
+                <span>throttle.php</span>
+                <button class="code-copy" type="button">Copy</button>
+              </div>
+              <pre><code class="language-php">$maxAttempts = 5;
+$window = 900; // 15 minutes
+
+$stmt = $pdo-&gt;prepare(
+    'SELECT COUNT(*) FROM login_attempts
+     WHERE ip = ? AND created_at &gt; (NOW() - INTERVAL ? SECOND)'
+);
+$stmt-&gt;execute([$ip, $window]);
+$attempts = $stmt-&gt;fetchColumn();
+
+if ($attempts &gt;= $maxAttempts) {
+    http_response_code(429);
+    exit('Too many attempts. Try again later.');
+}</code></pre>
+            </div>
+
+            <div class="callout">
+              <span class="callout-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 18l6-6-6-6" />
+                  <circle cx="12" cy="12" r="9" />
+                </svg>
+              </span>
+              <div class="callout-body">
+                <strong>Tip · log everything</strong>
+                Every failed and successful login should land in an audit log.
+                When (not if) something looks off, that trail is the only thing
+                between you and a very bad day.
+              </div>
+            </div>
+
+            <h4>Putting it together</h4>
+            <p>
+              None of these pieces are hard on their own. The discipline is in
+              doing all of them, every time, without exception. A login form is
+              a promise to your users — that you took the time to protect what
+              they trusted you with. Ship the hash, lock the session, sign the
+              requests, and throttle the noise.
+            </p>
+
+            <p>
+              Build it once, build it right, and you can stop losing sleep over
+              the part of your app that attackers go for first.
+            </p>
+          </div>
+
+          <!-- ───────────────────────────────────────────── -->
+          <!-- ARTICLE FOOTER -->
+          <!-- ───────────────────────────────────────────── -->
+
+          <div class="article-end-divider"></div>
+
+          <div class="article-bottom">
+            <a href="../../pages/blog.html" class="back-posts">
+              <svg viewBox="0 0 24 24" width="18" height="18">
+                <path
+                  d="M15 18l-6-6 6-6"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span>all posts</span>
+            </a>
+
+            <div class="article-share">
+              <a
+                href="https://linkedin.com/in/johnmark-delacruz"
+                target="_blank"
+                aria-label="LinkedIn"
+                class="share-btn"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 1 0-4 0v7h-4V9h4v2a4 4 0 0 1 4-3z"
+                  />
+                  <rect x="2" y="9" width="2" height="12" />
+                  <circle cx="9" cy="2" r="2" />
+                </svg>
+              </a>
+
+              <button
+                class="share-btn"
+                onclick="navigator.clipboard.writeText(window.location.href)"
+                aria-label="Copy link"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11 4"
+                  />
+                  <path
+                    d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 1 0 7.07 7.07L13 20"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <footer class="site-footer">
+            <span>© 2026 Johnmark Delacruz</span>
+
+            <a href="../../index.html"> ← back to site </a>
+          </footer>
+        </article>
+      </main>
+    </div>
+
+    <!-- JSON-LD structured data for SEO -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Building a Secure Authentication System with PHP",
+        "description": "Password hashing, session hardening, and rate limiting — a practical walkthrough of the authentication layer I wish I'd built the first time around.",
+        "image": "https://johnmarkdelacruz.dev/assets/img/ai-products.webp",
+        "datePublished": "2026-05-18",
+        "author": {
+          "@type": "Person",
+          "name": "Johnmark Delacruz",
+          "email": "johnmarkdelacruzii5@gmail.com"
+        },
+        "publisher": {
+          "@type": "Person",
+          "name": "Johnmark Delacruz"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://johnmarkdelacruz.dev/pages/posts/auth.html"
+        }
+      }
+    </script>
+
+    <script src="../../assets/js/main.js"></script>
+    <script>
+      // ─── Lightweight syntax highlighter (vanilla, no deps) ───
+      (function () {
+        const KEYWORDS = new Set([
+          "function",
+          "return",
+          "if",
+          "else",
+          "elseif",
+          "foreach",
+          "for",
+          "while",
+          "class",
+          "public",
+          "private",
+          "protected",
+          "static",
+          "new",
+          "echo",
+          "use",
+          "namespace",
+          "try",
+          "catch",
+          "throw",
+          "null",
+          "true",
+          "false",
+          "const",
+          "let",
+          "var",
+          "await",
+          "async",
+          "import",
+          "from",
+          "export",
+          "def",
+          "endforeach",
+          "endif",
+          "exit",
+          "isset",
+          "empty",
+          "require",
+          "include",
+          "print",
+        ]);
+
+        const TOKEN = new RegExp(
+          [
+            "(?<comment>/\\*[\\s\\S]*?\\*/|//[^\\n]*|#[^\\n]*)",
+            "(?<string>\"(?:\\\\.|[^\"\\\\])*\"|'(?:\\\\.|[^'\\\\])*'|`(?:\\\\.|[^`\\\\])*`)",
+            "(?<func>\\b[a-zA-Z_]\\w*(?=\\())",
+            "(?<number>\\b\\d+(?:\\.\\d+)?\\b)",
+            "(?<keyword>\\b(?:" + [...KEYWORDS].join("|") + ")\\b)",
+          ].join("|"),
+          "g",
+        );
+
+        function escapeHtml(s) {
+          return s
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+        }
+
+        function highlight(raw) {
+          const safe = escapeHtml(raw);
+          return safe.replace(TOKEN, (m, comment, str, fn, num, kw) => {
+            if (comment)
+              return '<span class="tok-comment">' + comment + "</span>";
+            if (str) return '<span class="tok-string">' + str + "</span>";
+            if (fn) return '<span class="tok-func">' + fn + "</span>";
+            if (num) return '<span class="tok-number">' + num + "</span>";
+            if (kw) return '<span class="tok-keyword">' + kw + "</span>";
+            return m;
+          });
+        }
+
+        document.querySelectorAll(".code-block code").forEach((el) => {
+          el.innerHTML = highlight(el.textContent);
+        });
+
+        // Copy button
+        document.querySelectorAll(".code-copy").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const code = btn
+              .closest(".code-block")
+              .querySelector("code").textContent;
+            navigator.clipboard?.writeText(code).then(() => {
+              const prev = btn.textContent;
+              btn.textContent = "Copied";
+              setTimeout(() => (btn.textContent = prev), 1400);
+            });
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
