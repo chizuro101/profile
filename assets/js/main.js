@@ -830,3 +830,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+// ─── Loading overlay ───
+window.addEventListener('load', () => {
+  const overlay = document.querySelector('.loading-overlay');
+  if (overlay) {
+    overlay.classList.add('is-loaded');
+  }
+});

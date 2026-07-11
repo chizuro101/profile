@@ -1,162 +1,100 @@
-/* EXPERIENCE STYLES */
-.exp-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin-top: 40px;
+/* EXPERIENCE PAGE STYLES */
+
+.exp-timeline-item {
+  opacity: 0;
+  transform: translateY(0.75rem);
+  animation: exp-fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.exp-item {
-  display: grid;
-  grid-template-columns: 110px 1fr;
-  gap: 32px;
-  padding: 28px 0;
-  border-top: 1px solid var(--hairline);
-  transition: background 0.2s ease;
-}
+.exp-timeline-item:nth-child(1) { animation-delay: 0ms; }
+.exp-timeline-item:nth-child(2) { animation-delay: 80ms; }
+.exp-timeline-item:nth-child(3) { animation-delay: 120ms; }
+.exp-timeline-item:nth-child(4) { animation-delay: 160ms; }
 
-.exp-item:first-child {
-  border-top: none;
-}
-
-@media (max-width: 680px) {
-  .exp-item {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 24px 0;
-  }
-  .exp-year {
-    padding-top: 0;
-    font-size: 13px;
-  }
-  .exp-content {
-    gap: 16px;
-  }
-  .exp-company-logo {
-    width: 48px;
-    height: 48px;
-    font-size: 16px;
+@keyframes exp-fade-in-up {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.exp-year {
+.exp-card {
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.exp-card:hover {
+  border-color: var(--hairline);
+  box-shadow:
+    0 0 8px rgba(232, 232, 232, 0.45),
+    0 10px 28px rgba(0, 0, 0, 0.18);
+  transform: translateY(-2px);
+}
+
+.exp-card:hover .exp-card-role {
+  color: var(--text);
+  text-shadow: 0 0 10px rgba(232, 232, 232, 0.45);
+}
+
+.exp-card:hover .exp-card-company {
+  color: var(--text);
+  text-shadow: 0 0 8px rgba(232, 232, 232, 0.35);
+}
+
+.exp-card:hover .exp-card-sub {
+  color: var(--text);
+  text-shadow: 0 0 8px rgba(232, 232, 232, 0.3);
+}
+
+.exp-card:hover .exp-badge {
+  color: var(--text);
+  border-color: rgba(255, 255, 255, 0.25);
+  text-shadow: 0 0 12px rgba(232, 232, 232, 0.35);
+}
+
+.exp-card:hover .exp-card-period {
+  color: var(--text);
+  text-shadow: 0 0 8px rgba(232, 232, 232, 0.45);
+}
+
+.exp-card-role {
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+.exp-card-company {
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+.exp-card-sub {
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+.exp-badge {
+  transition:
+    color 0.25s ease,
+    text-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.exp-card-period {
+  transition: color 0.25s ease, text-shadow 0.25s ease;
   font-family: "Courier New", Courier, monospace;
-  font-size: 15px;
+  font-size: 0.78rem;
   color: var(--muted);
-  font-weight: 600;
-  padding-top: 6px;
+  font-weight: 500;
   letter-spacing: 0.02em;
 }
 
-.exp-content {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
+.exp-logo {
+  transition: transform 0.25s ease;
 }
 
-.exp-company-logo {
-  width: 56px;
-  height: 56px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  color: var(--text);
-  font-size: 18px;
-  flex-shrink: 0;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.exp-item:hover .exp-company-logo {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.exp-role {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 4px;
-  color: var(--text);
-  letter-spacing: -0.01em;
-}
-
-.exp-company {
-  color: var(--muted);
-  margin-bottom: 4px;
-  font-size: 14px;
-}
-
-.exp-date {
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 12px;
-  font-family: "Courier New", Courier, monospace;
-  letter-spacing: 0.02em;
-}
-
-.exp-desc {
-  color: var(--muted);
-  line-height: 1.75;
-  margin-bottom: 0;
-  font-size: 14px;
-}
-
-.exp-item {
-  display: grid;
-  grid-template-columns: 110px 1fr;
-  gap: 32px;
-}
-
-.exp-year {
-  font-family: "Courier New", Courier, monospace;
-  font-size: 15px;
-  color: var(--muted);
-  font-weight: 600;
-  padding-top: 6px;
-}
-
-.exp-content {
-  display: flex;
-  gap: 20px;
-}
-
-.exp-company-logo {
-  width: 56px;
-  height: 56px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  color: var(--text);
-  font-size: 18px;
-  flex-shrink: 0;
-}
-
-.exp-role {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-
-.exp-company {
-  color: var(--muted);
-  margin-bottom: 6px;
-}
-
-.exp-date {
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 14px;
-}
-
-.exp-desc {
-  color: var(--muted);
-  line-height: 1.75;
-  margin-bottom: 16px;
+@media (max-width: 767px) {
+  .exp-card:hover {
+    box-shadow:
+      0 0 6px rgba(232, 232, 232, 0.35),
+      0 8px 20px rgba(0, 0, 0, 0.15);
+  }
 }

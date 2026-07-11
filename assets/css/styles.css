@@ -3295,6 +3295,41 @@ body.light {
   font-weight: 500;
   letter-spacing: 0.02em;
   color: var(--muted);
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+.edu-card:hover + .edu-timeline-content .edu-timeline-years,
+.edu-timeline-content:has(.edu-card:hover) .edu-timeline-years {
+  color: var(--text);
+  text-shadow: 0 0 8px rgba(232, 232, 232, 0.45);
+}
+
+.edu-badge {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--hairline-faint);
+  border: 1px solid var(--hairline);
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+.edu-card:hover + .edu-timeline-content .edu-badge,
+.edu-timeline-content:has(.edu-card:hover) .edu-badge {
+  color: var(--text);
+  text-shadow: 0 0 12px rgba(232, 232, 232, 0.35);
+}
+
+.edu-card:hover + .edu-timeline-content .edu-card-title,
+.edu-timeline-content:has(.edu-card:hover) .edu-card-title {
+  color: var(--text);
+  text-shadow: 0 0 10px rgba(232, 232, 232, 0.45);
 }
 
 .edu-card {
@@ -3310,8 +3345,14 @@ body.light {
 
 .edu-card:hover {
   border-color: var(--hairline);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+  box-shadow:
+    0 0 8px rgba(232, 232, 232, 0.45),
+    0 10px 28px rgba(0, 0, 0, 0.18);
   transform: translateY(-2px);
+}
+
+.edu-timeline-item:has(.edu-card:hover) .edu-timeline-dot {
+  box-shadow: 0 0 10px rgba(232, 232, 232, 0.5), 0 0 20px rgba(232, 232, 232, 0.2);
 }
 
 .edu-card-header {
@@ -3330,8 +3371,9 @@ body.light {
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.35;
-  color: var(--text);
+  color: var(--muted);
   margin: 0;
+  transition: color 0.25s ease, text-shadow 0.25s ease;
 }
 
 .edu-card-campus {
@@ -3339,21 +3381,6 @@ body.light {
   font-size: 0.82rem;
   color: var(--muted);
   line-height: 1.45;
-}
-
-.edu-badge {
-  display: inline-flex;
-  align-items: center;
-  flex-shrink: 0;
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--muted);
-  background: var(--hairline-faint);
-  border: 1px solid var(--hairline);
 }
 
 .edu-card-note {
@@ -4048,6 +4075,69 @@ body.light {
 @media (max-width: 680px) {
   .shop-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ─── LOADING OVERLAY ─── */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.loading-overlay.is-loaded {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loading-logo {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-logo img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.loading-logo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: var(--text);
+  border-right-color: var(--text);
+  animation: loading-spin 1s linear infinite;
+  opacity: 0.8;
+}
+
+.loading-logo::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-bottom-color: var(--text);
+  border-left-color: var(--text);
+  animation: loading-spin 1.6s linear infinite reverse;
+  opacity: 0.5;
+}
+
+@keyframes loading-spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
