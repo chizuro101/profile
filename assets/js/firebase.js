@@ -16,7 +16,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
+  apiKey: "AIzaSyB7gF_GwHbDxmodyzE1WCDqj3SiWwyidIU",
   authDomain: "chatbox-99f9e.firebaseapp.com",
   projectId: "chatbox-99f9e",
   storageBucket: "chatbox-99f9e.firebasestorage.app",
