@@ -711,107 +711,7 @@ it's working much harder than i am right now.`;
   });
 })();
 
-// ─── Community Chat ───
-(function () {
-  const chatModal = document.createElement("div");
-  chatModal.className = "chat-modal";
-  chatModal.innerHTML = `
-    <div class="chat-card">
-      <div class="chat-header">
-        <div class="chat-header-icon">
-          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
-        <div class="chat-header-info">
-          <div class="chat-header-title">Community Chat</div>
-          <div class="chat-header-status">● 12 online</div>
-        </div>
-        <button class="modal-close" data-chat-close aria-label="Close">
-          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
-      <div class="chat-messages" id="chatMessages"></div>
-      <div class="chat-input-row">
-        <input type="text" class="chat-input" id="chatInput" placeholder="Type a message..." autocomplete="off" />
-        <button class="chat-send" id="chatSend">Send</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(chatModal);
 
-  const messagesContainer = chatModal.querySelector("#chatMessages");
-  const chatInput = chatModal.querySelector("#chatInput");
-  const chatSend = chatModal.querySelector("#chatSend");
-
-  const botNames = ["Alex", "Sam", "Jordan", "Taylor", "Casey"];
-  const botMessages = [
-    "Hey everyone! 👋",
-    "Anyone working on something cool?",
-    "Just deployed my new project!",
-    "Nice work on the portfolio!",
-    "Does anyone use Laravel here?",
-    "React is awesome for frontend",
-    "Working on a new feature today",
-    "Coffee break ☕",
-    "Bug fixes are life",
-    "Who's up for a code review?"
-  ];
-
-  function addMessage(text, isOwn = false, name = "You") {
-    const msg = document.createElement("div");
-    msg.className = `chat-message ${isOwn ? "own" : ""}`;
-    const initial = name.charAt(0).toUpperCase();
-    msg.innerHTML = `
-      <div class="chat-avatar">${initial}</div>
-      <div>
-        <div class="chat-bubble">${escapeHtml(text)}</div>
-        <div class="chat-meta">${name} · just now</div>
-      </div>
-    `;
-    messagesContainer.appendChild(msg);
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-  }
-
-  function simulateChat() {
-    const name = botNames[Math.floor(Math.random() * botNames.length)];
-    const msg = botMessages[Math.floor(Math.random() * botMessages.length)];
-    addMessage(msg, false, name);
-  }
-
-  function sendMessage() {
-    const text = chatInput.value.trim();
-    if (!text) return;
-    addMessage(text, true, "You");
-    chatInput.value = "";
-    setTimeout(simulateChat, 1000 + Math.random() * 2000);
-  }
-
-  chatSend.addEventListener("click", sendMessage);
-  chatInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") sendMessage();
-  });
-
-  document.querySelectorAll("[data-community-chat]").forEach((el) => {
-    el.addEventListener("click", (e) => {
-      e.preventDefault();
-      chatModal.classList.add("open");
-      chatInput.focus();
-    });
-  });
-
-  chatModal.querySelector("[data-chat-close]").addEventListener("click", () => {
-    chatModal.classList.remove("open");
-  });
-
-  chatModal.addEventListener("click", (e) => {
-    if (e.target === chatModal) chatModal.classList.remove("open");
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && chatModal.classList.contains("open")) {
-      chatModal.classList.remove("open");
-    }
-  });
-})();
 
 // ─── Active nav link (arrow indicator for current page) ───
 document.addEventListener('DOMContentLoaded', () => {
@@ -851,3 +751,52 @@ if (document.readyState === 'complete') {
 
 // Safety net: never let the overlay block the page, even if `load` never fires
 setTimeout(hideLoadingOverlay, LOADING_MIN_MS + 1500);
+
+// ─── Community Chat (global modal that reuses the pages/community.html design) ───
+// The chat UI lives in pages/community.html (assets/css/community.css + assets/js/community.js).
+// We embed it in an iframe so the original light-themed design is preserved exactly,
+// with no CSS leakage into the dark portfolio theme.
+(function () {
+  const modal = document.createElement("div");
+  modal.className = "chat-modal";
+  modal.id = "chatModal";
+  modal.setAttribute("role", "dialog");
+  modal.setAttribute("aria-modal", "true");
+  modal.setAttribute("aria-label", "Community chat");
+  // Resolve pages/community.html relative to the site root so the iframe works
+  // from any page depth (root, pages/, pages/posts/, shop/, etc.).
+  const dirCount = location.pathname.split('/').filter(Boolean).length - 1;
+  const chatHref = (dirCount > 0 ? '../'.repeat(dirCount) : '') + 'pages/community.html';
+  modal.innerHTML = `
+    <div class="chat-iframe-wrap">
+      <button class="chat-close" id="chatClose" type="button" aria-label="Close community chat">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <iframe id="chatFrame" src="${chatHref}" title="Community chat" loading="lazy"></iframe>
+    </div>`;
+  document.body.appendChild(modal);
+
+  const closeBtn = modal.querySelector("#chatClose");
+
+  function openChat() {
+    modal.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeChat() {
+    modal.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  // Triggers: sidebar "community chat" button + any element flagged as a trigger + Alt+C
+  document.querySelectorAll(".community-btn, [data-community-trigger]").forEach((el) => {
+    el.classList.add("clickable");
+    el.addEventListener("click", (e) => { e.preventDefault(); openChat(); });
+  });
+
+  closeBtn.addEventListener("click", closeChat);
+  modal.addEventListener("click", (e) => { if (e.target === modal) closeChat(); });
+  document.addEventListener("keydown", (e) => {
+    if ((e.altKey || e.metaKey) && e.key.toLowerCase() === "c") { e.preventDefault(); openChat(); }
+    if (e.key === "Escape" && modal.classList.contains("open")) closeChat();
+  });
+})();
