@@ -187,7 +187,11 @@ function renderMessage(msg, myUid) {
   avatar.className = "avatar";
   avatar.style.background = msg.color || "hsl(220 10% 80%)";
   const avatarImg = document.createElement("img");
-  avatarImg.src = "assets/img/char/" + encodeURI(avatarFor(msg));
+  avatarImg.src = (function() {
+    const link = document.querySelector('link[href*="chat-modal.css"]');
+    const base = link ? link.getAttribute('href').replace(/css\/chat-modal\.css$/, '') : 'assets/';
+    return base + 'img/char/' + encodeURI(avatarFor(msg));
+  })();
   avatarImg.alt = "";
   avatar.appendChild(avatarImg);
 

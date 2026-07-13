@@ -2501,6 +2501,59 @@ body.light {
   display: none;
 }
 
+.projects-page-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.projects-page-titles {
+  display: block;
+}
+
+.view-toggle {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.view-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.view-btn:hover {
+  color: var(--text);
+  border-color: var(--hairline);
+}
+
+.view-btn.active {
+  background: var(--hairline-soft);
+  color: var(--text);
+  border-color: var(--hairline);
+}
+
+.view-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .projects-page-header {
   margin-bottom: 2.5rem;
 }
@@ -2535,9 +2588,39 @@ body.light {
   transform: translateY(0);
 }
 
+.projects-subhead {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin: 40px 0 18px;
+}
+
+.projects-subhead:first-child {
+  margin-top: 8px;
+}
+
+.projects-subnum {
+  font-family: "Courier New", Courier, monospace;
+  color: var(--muted);
+}
+
 .projects-page .project-item:nth-child(1) { transition-delay: 0s; }
 .projects-page .project-item:nth-child(2) { transition-delay: 0.08s; }
 .projects-page .project-item:nth-child(3) { transition-delay: 0.16s; }
+.projects-page .project-item:nth-child(4) { transition-delay: 0.24s; }
+
+.projects-page .project-title a {
+  color: inherit;
+  text-decoration: none;
+}
+.projects-page .project-title a:hover {
+  text-decoration: underline;
+}
 
 .projects-page .project-thumb {
   width: clamp(110px, 38vw, 220px);
@@ -2590,6 +2673,59 @@ body.light {
   font-family: "Courier New", Courier, monospace;
   font-size: 12px;
   color: var(--muted);
+}
+
+/* VIEW TOGGLE TRANSITION + GRID VIEW */
+.projects-page {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.projects-page.is-transitioning {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+}
+
+.projects-page.grid .project-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.projects-page.grid .project-item {
+  flex-direction: column;
+  width: auto;
+  min-width: 0;
+  padding: 0;
+  border-top: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.projects-page.grid .project-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.projects-page.grid .project-thumb {
+  width: 100%;
+  height: 220px;
+  border-radius: 12px 12px 0 0;
+  border: none;
+}
+
+.projects-page.grid .project-meta {
+  padding: 22px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.projects-page.grid .project-excerpt {
+  flex-grow: 1;
 }
 
 @media (max-width: 860px) {
