@@ -740,7 +740,10 @@ function hideLoadingOverlay() {
   if (!overlay || overlay.classList.contains('is-loaded')) return;
   const elapsed = performance.now() - loadingStart;
   const wait = Math.max(0, LOADING_MIN_MS - elapsed);
-  setTimeout(() => overlay.classList.add('is-loaded'), wait);
+  setTimeout(() => {
+    overlay.classList.add('is-loaded');
+    document.body.classList.add('loaded');
+  }, wait);
 }
 
 if (document.readyState === 'complete') {

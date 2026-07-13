@@ -979,8 +979,8 @@ a:hover {
 /* GRID VIEW */
 .post-list.grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(0.75rem, 2vw, 1.5rem);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.5rem, 1.5vw, 1rem);
 }
 
 .post-list.grid .post-item {
@@ -991,38 +991,49 @@ a:hover {
   border-top: none;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .post-list.grid .post-item:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
 }
 
 .post-list.grid .post-thumb,
 .post-list.grid .post-thumb.dots {
   width: 100%;
-  height: 220px;
-  border-radius: 12px 12px 0 0;
+  height: 160px;
+  border-radius: 10px 10px 0 0;
   border: none;
 }
 
 .post-list.grid .post-meta {
-  padding: 22px;
+  padding: 10px 12px 12px;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
+.post-list.grid .post-meta-top {
+  margin-bottom: 4px;
+}
+
 .post-list.grid .post-title {
-  font-size: 20px;
+  font-size: 16px;
+  margin-bottom: 6px;
+  line-height: 1.25;
 }
 
 .post-list.grid .post-excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   flex-grow: 1;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
+  font-size: 13px;
 }
 
 /* ─── BLOG PAGE RESPONSIVE (scale only — same layout as desktop) ─── */
@@ -1076,51 +1087,46 @@ a:hover {
     font-size: 10px;
   }
 
-  /* Grid view — single column on small screens for readable text */
+  /* Grid view — compact 2-column grid on small screens */
   .post-list.grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
   }
 
   .post-list.grid .post-item {
     padding: 0;
+    border-radius: 12px;
   }
 
   .post-list.grid .post-thumb,
   .post-list.grid .post-thumb.dots {
     width: 100%;
-    height: clamp(150px, 42vw, 200px);
+    height: clamp(110px, 28vw, 140px);
     aspect-ratio: auto;
-    border-radius: 12px 12px 0 0;
+    border-radius: 10px 10px 0 0;
   }
 
   .post-list.grid .post-meta {
-    padding: 14px 16px 16px;
+    padding: 8px 10px 10px;
   }
 
   .post-list.grid .post-meta-top {
-    font-size: 11px;
+    font-size: 10px;
     margin-bottom: 6px;
   }
 
   .post-list.grid .post-title {
-    font-size: 17px;
-    line-height: 1.3;
+    font-size: 14px;
+    line-height: 1.25;
     margin-bottom: 8px;
   }
 
   .post-list.grid .post-excerpt {
-    font-size: 13px;
-    line-height: 1.6;
-    margin-bottom: 12px;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    display: none;
   }
 
   .post-list.grid .post-meta-bottom {
-    font-size: 11px;
+    font-size: 10px;
   }
 
   /* Affiliations — grid only (list unchanged) */
