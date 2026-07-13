@@ -1904,29 +1904,8 @@ body.light {
   opacity: 1;
   pointer-events: auto;
 }
-/* The chat UI is the existing community.html design — we just frame it in an
-   iframe so its light theme is preserved inside the dark portfolio. */
-.chat-iframe-wrap {
-  position: relative;
-  width: min(720px, 100%);
-  height: min(820px, 92vh);
-  background: #ffffff;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-  transform: scale(0.96) translateY(6px);
-  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.3, 1);
-}
-.chat-modal.open .chat-iframe-wrap {
-  transform: scale(1) translateY(0);
-}
-.chat-iframe-wrap iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  display: block;
-  background: #ffffff;
-}
+/* The chat UI is inlined into index.html as #chatModal (.chat-card); its
+   inner light-theme styles live in assets/css/chat-modal.css. */
 .chat-close {
   position: absolute;
   top: 14px;
@@ -3737,7 +3716,7 @@ body.light {
     padding: 0;
   }
 
-  .chat-iframe-wrap {
+  .chat-card {
     width: 100%;
     height: 100dvh;
     border-radius: 0;

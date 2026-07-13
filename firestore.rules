@@ -3,7 +3,7 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Chat messages (used by both the Chatbox and community.html /
+    // Chat messages (used by the in-page Community chat modal in index.html /
     // assets/js/community.js). No Auth is used; validate the exact
     // payload shape. `ts` is a numeric epoch-ms value.
     match /messages/{messageId} {

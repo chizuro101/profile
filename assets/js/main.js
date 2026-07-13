@@ -752,39 +752,25 @@ if (document.readyState === 'complete') {
 // Safety net: never let the overlay block the page, even if `load` never fires
 setTimeout(hideLoadingOverlay, LOADING_MIN_MS + 1500);
 
-// ─── Community Chat (global modal that reuses the pages/community.html design) ───
-// The chat UI lives in pages/community.html (assets/css/community.css + assets/js/community.js).
-// We embed it in an iframe so the original light-themed design is preserved exactly,
-// with no CSS leakage into the dark portfolio theme.
+// ─── Community Chat (in-page modal, markup lives in index.html) ───
+// The chat UI is inlined into index.html as #chatModal (assets/css/chat-modal.css
+// + assets/js/community.js). We just toggle its `.open` state here.
 (function () {
-  const modal = document.createElement("div");
-  modal.className = "chat-modal";
-  modal.id = "chatModal";
-  modal.setAttribute("role", "dialog");
-  modal.setAttribute("aria-modal", "true");
-  modal.setAttribute("aria-label", "Community chat");
-  // Resolve pages/community.html relative to the site root so the iframe works
-  // from any page depth (root, pages/, pages/posts/, shop/, etc.).
-  const dirCount = location.pathname.split('/').filter(Boolean).length - 1;
-  const chatHref = (dirCount > 0 ? '../'.repeat(dirCount) : '') + 'pages/community.html';
-  modal.innerHTML = `
-    <div class="chat-iframe-wrap">
-      <button class="chat-close" id="chatClose" type="button" aria-label="Close community chat">
-        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
-      <iframe id="chatFrame" src="${chatHref}" title="Community chat" loading="lazy"></iframe>
-    </div>`;
-  document.body.appendChild(modal);
-
+  const modal = document.getElementById("chatModal");
+  if (!modal) return;
   const closeBtn = modal.querySelector("#chatClose");
 
   function openChat() {
     modal.classList.add("open");
     document.body.style.overflow = "hidden";
+    // Let community.js know the chat became visible (starts the listener +
+    // shows the name prompt if needed).
+    window.dispatchEvent(new CustomEvent("chat:open"));
   }
   function closeChat() {
     modal.classList.remove("open");
     document.body.style.overflow = "";
+    window.dispatchEvent(new CustomEvent("chat:close"));
   }
 
   // Triggers: sidebar "community chat" button + any element flagged as a trigger + Alt+C
@@ -793,7 +779,7 @@ setTimeout(hideLoadingOverlay, LOADING_MIN_MS + 1500);
     el.addEventListener("click", (e) => { e.preventDefault(); openChat(); });
   });
 
-  closeBtn.addEventListener("click", closeChat);
+  closeBtn?.addEventListener("click", (e) => { e.preventDefault(); closeChat(); });
   modal.addEventListener("click", (e) => { if (e.target === modal) closeChat(); });
   document.addEventListener("keydown", (e) => {
     if ((e.altKey || e.metaKey) && e.key.toLowerCase() === "c") { e.preventDefault(); openChat(); }

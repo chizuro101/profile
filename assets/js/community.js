@@ -2,13 +2,25 @@
 // and the `messages` collection your Chatbox already uses), so there is a
 // single source of truth and messages persist across refreshes.
 import {
-  db, auth, firebaseReady, collection, addDoc, query, orderBy, limit,
-  onSnapshot, signInAnonymously
+  db, firebaseReady, collection, addDoc, query, where, orderBy, limit, onSnapshot, getCountFromServer
 } from "./firebase.js";
 
 /* ============================= Utilities ============================= */
 const STORAGE_KEY = "communityChat.displayName"; // sessionStorage — cleared when the tab/window closes
 const COLOR_KEY = "communityChat.color";
+const SESSION_ID = (() => {
+  // Per-tab identity, stored in sessionStorage so it survives reloads of the
+  // same tab but is unique per tab/window. This is what makes a message show
+  // up as "You" only for the person who actually sent it — Firebase anonymous
+  // auth reuses one uid across every tab of the same browser, which wrongly
+  // labelled other tabs' messages as "You".
+  let id = sessionStorage.getItem("communityChat.sessionId");
+  if (!id) {
+    id = "s-" + Math.random().toString(36).slice(2, 10);
+    sessionStorage.setItem("communityChat.sessionId", id);
+  }
+  return id;
+})();
 const EXPIRE_MS = 24 * 60 * 60 * 1000; // messages auto-hide after 24 hours
 
 function relativeTime(date) {
@@ -109,7 +121,11 @@ nameInput.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preven
 
 /* ============================= Connection banner ============================= */
 const connBanner = document.getElementById("connection-banner");
+let chatVisible = false; // true only while the in-page chat modal is open
 function setConnected(isConnected) {
+  // Only surface the reconnect banner while the chat modal is actually open,
+  // so it never appears on the rest of the portfolio.
+  if (!chatVisible) { connBanner.classList.remove("show"); return; }
   connBanner.classList.toggle("show", !isConnected);
 }
 window.addEventListener("online", () => setConnected(true));
@@ -148,20 +164,22 @@ const CHAR_AVATARS = [
   "avatar (4).svg", "avatar (5).svg", "avatar (6).svg", "avatar (7).svg", "avatar (8).svg"
 ];
 
-// Derive a stable char avatar for a user from their uid/name so the same
-// person always gets the same image. No extra Firestore field is needed
-// (the rules cap the doc at 6 fields), so this is computed at render time.
+// Derive a stable char avatar for a user so the same person always gets the
+// same image across refreshes and across the local-id / Firebase-uid boundary.
+// The display name is the stable identity in this anonymous chat, so we key on
+// it; using the (volatile, session-random) uid caused one person to be shown
+// with different avatars for messages sent before/after auth resolved.
 function avatarFor(msg) {
-  const key = (msg.uid && !String(msg.uid).startsWith("local-"))
-    ? msg.uid
-    : (msg.name || "anon");
+  const key = (msg.name && String(msg.name).trim())
+    ? String(msg.name).trim()
+    : (msg.uid || "anon");
   let h = 0;
   for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) | 0;
   return CHAR_AVATARS[Math.abs(h) % CHAR_AVATARS.length];
 }
 
 function renderMessage(msg, myUid) {
-  const own = msg.uid === myUid;
+  const own = msg.uid === SESSION_ID;
   const row = document.createElement("div");
   row.className = "msg-row";
 
@@ -169,7 +187,7 @@ function renderMessage(msg, myUid) {
   avatar.className = "avatar";
   avatar.style.background = msg.color || "hsl(220 10% 80%)";
   const avatarImg = document.createElement("img");
-  avatarImg.src = "../assets/img/char/" + encodeURI(avatarFor(msg));
+  avatarImg.src = "assets/img/char/" + encodeURI(avatarFor(msg));
   avatarImg.alt = "";
   avatar.appendChild(avatarImg);
 
@@ -212,16 +230,28 @@ function renderMessage(msg, myUid) {
   return row;
 }
 
+// Accurate total of non-expired messages, independent of the display cap.
+// Uses Firestore's count aggregation (downloads no documents).
+async function updateTotalCount() {
+  if (!firebaseReady) return;
+  try {
+    const cutoff = Date.now() - EXPIRE_MS;
+    const q = query(collection(db, "messages"), where("ts", ">", cutoff));
+    const snap = await getCountFromServer(q);
+    msgCountNumber.textContent = String(snap.data().count);
+  } catch (e) {
+    console.warn("Could not fetch message count:", e);
+  }
+}
+
 function refreshTimestamps() {
-  let visible = 0;
   document.querySelectorAll("#messages [data-ts]").forEach(el => {
     const ts = Number(el.dataset.ts);
     if (!ts) return;
     if (Date.now() - ts > EXPIRE_MS) { el.closest(".msg-row")?.remove(); return; }
     el.textContent = relativeTime(new Date(ts));
-    visible++;
   });
-  msgCountNumber.textContent = String(visible);
+  updateTotalCount();
 }
 setInterval(refreshTimestamps, 30000);
 
@@ -252,7 +282,7 @@ function buildMessageDoc(text) {
     name: displayName,
     text,
     ts: Date.now(),
-    uid: currentUid
+    uid: SESSION_ID
   };
 }
 
@@ -290,7 +320,7 @@ async function handleSend() {
 }
 
 function appendLocalMessage(text) {
-  const row = renderMessage({ ...buildMessageDoc(text), pending: true }, currentUid);
+  const row = renderMessage({ ...buildMessageDoc(text), pending: true }, SESSION_ID);
   messagesEl.appendChild(row);
   scrollToBottom(true);
   msgCountNumber.textContent = String(Number(msgCountNumber.textContent || 0) + 1);
@@ -299,7 +329,7 @@ function appendLocalMessage(text) {
 function listenToMessages() {
   if (!firebaseReady) return;
   let firstLoad = true;
-  const q = query(collection(db, "messages"), orderBy("ts", "desc"), limit(50));
+  const q = query(collection(db, "messages"), orderBy("ts", "desc"), limit(200));
   onSnapshot(q, (snapshot) => {
     const docs = [];
     snapshot.forEach(doc => docs.push(doc.data()));
@@ -308,39 +338,45 @@ function listenToMessages() {
     // user is already near the bottom (so reading history isn't yanked down).
     const stickToBottom = firstLoad ? true : isNearBottom();
     messagesEl.innerHTML = "";
-    let visible = 0;
     docs.forEach(data => {
       const ts = Number(data.ts) || 0;
       if (ts && Date.now() - ts > EXPIRE_MS) return; // skip messages older than 24h
-      messagesEl.appendChild(renderMessage({ ...data, ts }, currentUid));
-      visible++;
+      messagesEl.appendChild(renderMessage({ ...data, ts }, SESSION_ID));
     });
     if (stickToBottom) scrollToBottom(true);
     firstLoad = false;
-    msgCountNumber.textContent = String(visible);
+    updateTotalCount();
   }, (err) => console.error("Message listener error:", err));
 }
 
 /* ============================= Boot ============================= */
-let currentUid = "local-" + Math.random().toString(36).slice(2, 10);
+let appStarted = false;
 
 async function startApp() {
+  // No name yet — prompt for one (only fires once the chat is opened, so we
+  // never pop this on the rest of the portfolio).
+  if (!displayName) { showModal(); return; }
   chattingAsName.textContent = displayName;
   myLocation = await resolveLocation();
 
   if (!firebaseReady) return;
+  if (appStarted) return;
+  appStarted = true;
 
-  // Reads don't require auth, so start listening immediately. This keeps
-  // messages on screen across refreshes even if anonymous sign-in is
-  // unavailable — only sending falls back to a local id.
+  // Reads don't require auth, so start listening immediately. Messages persist
+  // across refreshes; each message carries a per-tab SESSION_ID (see top) so
+  // only the sender sees their own messages as "You".
   listenToMessages();
-
-  try {
-    const cred = await signInAnonymously(auth);
-    if (cred && cred.user) currentUid = cred.user.uid;
-  } catch (e) {
-    console.warn("Anonymous auth unavailable — messages still load, sending uses a local id.", e);
-  }
 }
 
-if (displayName) { unlockComposer(); hideModal(); startApp(); } else { lockComposer(); showModal(); }
+// The chat is an in-page modal on the homepage, so we must not start it (or
+// prompt for a name) on load. main.js dispatches chat:open when the sidebar
+// "Community chat" button opens the modal.
+window.addEventListener("chat:open", () => {
+  chatVisible = true;
+  startApp();
+  updateTotalCount();
+});
+window.addEventListener("chat:close", () => { chatVisible = false; });
+
+if (displayName) { unlockComposer(); } else { lockComposer(); }
