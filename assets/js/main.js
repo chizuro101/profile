@@ -762,6 +762,7 @@ setTimeout(hideLoadingOverlay, LOADING_MIN_MS + 1500);
   const modal = document.getElementById("chatModal");
   if (!modal) return;
   const closeBtn = modal.querySelector("#chatClose");
+  const nameOverlay = document.getElementById("name-modal-overlay");
 
   function openChat() {
     modal.classList.add("open");
@@ -786,6 +787,15 @@ setTimeout(hideLoadingOverlay, LOADING_MIN_MS + 1500);
   modal.addEventListener("click", (e) => { if (e.target === modal) closeChat(); });
   document.addEventListener("keydown", (e) => {
     if ((e.altKey || e.metaKey) && e.key.toLowerCase() === "c") { e.preventDefault(); openChat(); }
-    if (e.key === "Escape" && modal.classList.contains("open")) closeChat();
+    if (e.key !== "Escape") return;
+    // The name prompt sits on top of the chat; Escape must dismiss it (and the
+    // whole chat) first, otherwise the chat closes behind it and the prompt is
+    // left stuck open with no way to dismiss it.
+    if (nameOverlay && nameOverlay.style.display === "flex") {
+      nameOverlay.style.display = "none";
+      closeChat();
+      return;
+    }
+    if (modal.classList.contains("open")) closeChat();
   });
 })();

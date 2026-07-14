@@ -31,7 +31,6 @@
   --bg: transparent;
   --panel: transparent;
   --line: rgba(255,255,255,0.12);
-  --line-strong: rgba(255,255,255,0.22);
   --text: #e8e8e8;
   --text-dim: #8d8d8a;
   --text-faint: #bcbcb9;
@@ -149,6 +148,7 @@
   -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 28px, #000 100%);
 }
 .chat-modal #messages::-webkit-scrollbar{ width:7px; }
+.chat-modal #messages::-webkit-scrollbar-thumb{ background:var(--line-strong); border-radius:10px; }
 
 .chat-modal .msg-row{
   display:flex; gap:12px; align-items:flex-start;
@@ -239,9 +239,9 @@
 #name-modal-overlay[style*="flex"]{ display:flex; }
 @keyframes fade-in{ from{opacity:0;} to{opacity:1;} }
 #name-modal{
-  background:#fff; border-radius:var(--radius-lg); padding:30px 28px;
+  background:#141414; border:1px solid rgba(255,255,255,0.12); border-radius:var(--radius-lg); padding:30px 28px;
   width:100%; max-width:360px; margin:auto;
-  box-shadow:0 20px 60px rgba(0,0,0,.18);
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
   animation:modal-in .3s cubic-bezier(.2,.8,.3,1);
 }
 @keyframes modal-in{ from{ opacity:0; transform:translateY(12px) scale(.97);} to{ opacity:1; transform:translateY(0) scale(1);} }
@@ -250,16 +250,17 @@
 #name-modal p{ margin:0 0 18px; font-size:13px; color:var(--text-dim); line-height:1.5; }
 #name-input{
   width:100%; padding:11px 13px; border-radius:var(--radius-sm);
-  border:1px solid var(--line-strong); font-size:14px; font-family:var(--font-body);
-  outline:none; margin-bottom:6px;
+  border:1px solid var(--line); font-size:14px; font-family:var(--font-body);
+  outline:none; margin-bottom:6px; background:transparent; color:var(--text);
 }
+#name-input::placeholder{ color:var(--text-faint); }
 #name-input:focus{ border-color:var(--text-dim); }
 #name-error{ font-size:11.5px; color:var(--danger); min-height:16px; margin-bottom:8px; font-family:var(--font-mono); }
 #name-continue{
   width:100%; padding:11px; border:none; border-radius:var(--radius-sm);
-  background:var(--text); color:#fff; font-size:13.5px; font-weight:600; cursor:pointer;
+  background:var(--text); color:#141414; font-size:13.5px; font-weight:600; cursor:pointer;
 }
-#name-continue:hover{ background:#000; }
+#name-continue:hover{ background:#fff; }
 
 @media (max-width: 860px){
   .chat-modal #topbar{ padding:14px 18px 8px; }
