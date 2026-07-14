@@ -2638,6 +2638,11 @@ body.light {
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.45s ease;
+}
+
+.projects-page .project-item:hover .project-thumb img {
+  transform: scale(1.06);
 }
 
 .projects-page .project-meta {
@@ -2706,8 +2711,7 @@ body.light {
 }
 
 .projects-page.grid .project-item:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transform: none;
 }
 
 .projects-page.grid .project-thumb {

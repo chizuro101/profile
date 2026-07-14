@@ -7,6 +7,197 @@
     <link rel="stylesheet" href="../assets/css/styles.css" />
   <link rel="stylesheet" href="../assets/css/chat-modal.css" />
     <link rel="icon" type="image/png" href="../assets/img/logo/profile.svg">
+    <style>
+      /* ─── Project detail modal (projects page only) ─── */
+      .featured-list .project-item { cursor: pointer; }
+      .featured-list .project-item:focus-visible {
+        outline: 2px solid var(--accent, #e8e8e8);
+        outline-offset: 3px;
+      }
+
+      .project-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .project-modal[hidden] { display: none; }
+
+      .project-modal__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.82);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+      }
+
+      .project-modal__panel {
+        position: relative;
+        z-index: 1;
+        width: min(1040px, 100%);
+        max-height: 100%;
+        background: var(--surface, #141414);
+        border: 1px solid var(--border, #222);
+        border-radius: 16px;
+        overflow: auto;
+        animation: pm-pop 0.25s ease;
+      }
+
+      @keyframes pm-pop {
+        from { opacity: 0; transform: scale(0.97) translateY(6px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
+      }
+
+      .project-modal__body {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 0;
+      }
+
+      .project-modal__gallery {
+        padding: 20px;
+        border-right: 1px solid var(--border, #222);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .project-modal__stage {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #0c0c0c;
+        border: 1px solid var(--border, #222);
+        border-radius: 12px;
+        overflow: hidden;
+        min-height: 220px;
+      }
+
+      .project-modal__img {
+        display: block;
+        width: 100%;
+        max-height: 62vh;
+        object-fit: contain;
+        background: #fff;
+      }
+
+      .project-modal__nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid var(--border, #222);
+        background: rgba(20, 20, 20, 0.7);
+        color: var(--text, #e8e8e8);
+        font-size: 22px;
+        line-height: 1;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s ease;
+      }
+      .project-modal__nav:hover { background: rgba(40, 40, 40, 0.9); }
+      .project-modal__nav--prev { left: 12px; }
+      .project-modal__nav--next { right: 12px; }
+
+      .project-modal__thumbs {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .project-modal__thumb {
+        width: 72px;
+        height: 46px;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid var(--border, #222);
+        padding: 0;
+        cursor: pointer;
+        background: #0c0c0c;
+        opacity: 0.55;
+        transition: opacity 0.15s ease, border-color 0.15s ease;
+      }
+      .project-modal__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .project-modal__thumb:hover { opacity: 0.85; }
+      .project-modal__thumb.is-active {
+        opacity: 1;
+        border-color: var(--accent, #e8e8e8);
+      }
+
+      .project-modal__info {
+        padding: 28px 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .project-modal__meta-top {
+        font-family: "Courier New", Courier, monospace;
+        font-size: 12px;
+        color: var(--muted, #666);
+      }
+
+      .project-modal__title {
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+        line-height: 1.25;
+        margin: 0;
+        color: var(--text, #e8e8e8);
+      }
+
+      .project-modal__excerpt {
+        font-size: 14px;
+        color: var(--muted, #888);
+        line-height: 1.65;
+        margin: 0;
+      }
+
+      .project-modal__stack {
+        margin-top: auto;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 12px;
+        color: var(--muted, #666);
+      }
+
+      .project-modal__close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid var(--border, #222);
+        background: rgba(20, 20, 20, 0.8);
+        color: var(--text, #e8e8e8);
+        font-size: 20px;
+        line-height: 1;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+      }
+      .project-modal__close:hover { background: #222; }
+
+      @media (max-width: 760px) {
+        .project-modal { padding: 14px; }
+        .project-modal__body { grid-template-columns: 1fr; }
+        .project-modal__gallery { border-right: none; border-bottom: 1px solid var(--border, #222); }
+        .project-modal__img { max-height: 52vh; }
+        .project-modal__thumb { width: 56px; height: 36px; }
+        .project-modal__info { padding: 20px 18px 24px; }
+        .project-modal__title { font-size: 22px; }
+      }
+    </style>
   </head>
   <body>
     <div class="loading-overlay" aria-hidden="true"><div class="loading-logo"><img src="../assets/img/logo/profile.svg" alt=""></div></div>
@@ -230,7 +421,13 @@
           </div>
 
           <div class="project-list featured-list">
-            <article class="project-item">
+            <article
+              class="project-item"
+              id="doms-card"
+              role="button"
+              tabindex="0"
+              aria-label="View DOMS system screenshots"
+            >
               <div class="project-thumb">
                 <img src="../assets/img/one.png" alt="DOMS dashboard preview" />
               </div>
@@ -287,6 +484,201 @@
           </div>
 
           <div class="project-list recent-list">
+
+            <article class="project-item">
+              <a
+                class="project-thumb"
+                href="https://expenses-it.lovable.app"
+                target="_blank"
+                rel="noopener"
+              >
+                <img
+                  src="https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/5b09eafe-e087-4c98-ab4a-ebb31fcbaf5a"
+                  alt="Expense It landing page"
+                />
+              </a>
+              <div class="project-meta">
+                <div class="project-meta-top">2026 · Web App</div>
+                <h2 class="project-title">
+                  <a
+                    href="https://expenses-it.lovable.app"
+                    target="_blank"
+                    rel="noopener"
+                    >Expense It ↗</a
+                  >
+                </h2>
+                <p class="project-excerpt">
+                  A mobile-first expense platform to snap a receipt and get
+                  reimbursed — built for finance, ops, and the people doing
+                  the work.
+                </p>
+                <div class="project-meta-bottom">
+                  Stack · React · Lovable · Tailwind CSS
+                </div>
+              </div>
+            </article>
+
+            <article class="project-item">
+              <a
+                class="project-thumb"
+                href="https://stackwise-app.lovable.app"
+                target="_blank"
+                rel="noopener"
+              >
+                <img
+                  src="https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b305a2b5-7548-4cb0-b372-a8367223da6e"
+                  alt="Stackwise landing page"
+                />
+              </a>
+              <div class="project-meta">
+                <div class="project-meta-top">2026 · Web App</div>
+                <h2 class="project-title">
+                  <a
+                    href="https://stackwise-app.lovable.app"
+                    target="_blank"
+                    rel="noopener"
+                    >Stackwise ↗</a
+                  >
+                </h2>
+                <p class="project-excerpt">
+                  A real-time inventory command center to track stock, manage
+                  suppliers, automate reorders, and keep teams aligned.
+                </p>
+                <div class="project-meta-bottom">
+                  Stack · React · Lovable · Tailwind CSS
+                </div>
+              </div>
+            </article>
+
+            <article class="project-item">
+              <a
+                class="project-thumb"
+                href="https://assetwise-sparkle.lovable.app"
+                target="_blank"
+                rel="noopener"
+              >
+                <img
+                  src="https://storage.googleapis.com/gpt-engineer-file-uploads/KoUaltGzqoVfSfQv3CIsHyhMxAp2/social-images/social-1774646906152-AssetWise-Insights-Lovable-03-27-2026_05_28_PM.webp"
+                  alt="AssetWise landing page"
+                />
+              </a>
+              <div class="project-meta">
+                <div class="project-meta-top">2026 · Web App</div>
+                <h2 class="project-title">
+                  <a
+                    href="https://assetwise-sparkle.lovable.app"
+                    target="_blank"
+                    rel="noopener"
+                    >AssetWise ↗</a
+                  >
+                </h2>
+                <p class="project-excerpt">
+                  An internal asset and equipment tracking tool to organize,
+                  monitor, and manage company resources in one place.
+                </p>
+                <div class="project-meta-bottom">
+                  Stack · React · Lovable · Tailwind CSS
+                </div>
+              </div>
+            </article>
+
+            <article class="project-item">
+              <a
+                class="project-thumb"
+                href="https://issue-ignite-flow.lovable.app"
+                target="_blank"
+                rel="noopener"
+              >
+                <img
+                  src="https://storage.googleapis.com/gpt-engineer-file-uploads/KoUaltGzqoVfSfQv3CIsHyhMxAp2/social-images/social-1774040197142-Triage-Lovable-03-20-2026_04_56_PM.webp"
+                  alt="Triage landing page"
+                />
+              </a>
+              <div class="project-meta">
+                <div class="project-meta-top">2026 · Web App</div>
+                <h2 class="project-title">
+                  <a
+                    href="https://issue-ignite-flow.lovable.app"
+                    target="_blank"
+                    rel="noopener"
+                    >Triage ↗</a
+                  >
+                </h2>
+                <p class="project-excerpt">
+                  An issue triage tool to help teams prioritize, organize, and
+                  ship better software faster.
+                </p>
+                <div class="project-meta-bottom">
+                  Stack · React · Lovable · Tailwind CSS
+                </div>
+              </div>
+            </article>
+
+            <article class="project-item">
+              <a
+                class="project-thumb"
+                href="https://client-wins-compass.lovable.app"
+                target="_blank"
+                rel="noopener"
+              >
+                <img
+                  src="https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/435d8c06-db34-442e-b6f9-a7b34826bdbd"
+                  alt="ROI Sales Companion landing page"
+                />
+              </a>
+              <div class="project-meta">
+                <div class="project-meta-top">2026 · Web App</div>
+                <h2 class="project-title">
+                  <a
+                    href="https://client-wins-compass.lovable.app"
+                    target="_blank"
+                    rel="noopener"
+                    >ROI Sales Companion ↗</a
+                  >
+                </h2>
+                <p class="project-excerpt">
+                  A sales engineer's calculator for real-time, customizable ROI
+                  business cases with industry templates, prospect branding,
+                  and AI-powered research.
+                </p>
+                <div class="project-meta-bottom">
+                  Stack · React · Lovable · Tailwind CSS
+                </div>
+              </div>
+            </article>
+
+            <article class="project-item">
+              <a
+                class="project-thumb"
+                href="https://modern-seaside-stay-0084.lovable.app"
+                target="_blank"
+                rel="noopener"
+              >
+                <img
+                  src="https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/f2931d98-2830-40a2-a374-af142585f270"
+                  alt="MareSereno seaside stay landing page"
+                />
+              </a>
+              <div class="project-meta">
+                <div class="project-meta-top">2026 · Web App</div>
+                <h2 class="project-title">
+                  <a
+                    href="https://modern-seaside-stay-0084.lovable.app"
+                    target="_blank"
+                    rel="noopener"
+                    >MareSereno (Seaside Stay) ↗</a
+                  >
+                </h2>
+                <p class="project-excerpt">
+                  A luxury beachfront accommodation platform with apartment
+                  listings, instant booking, and secure reservations by the sea.
+                </p>
+                <div class="project-meta-bottom">
+                  Stack · React · Lovable · Tailwind CSS
+                </div>
+              </div>
+            </article>
+
             <article class="project-item">
               <a
                 class="project-thumb"
@@ -350,38 +742,6 @@
                 </div>
               </div>
             </article>
-
-            <article class="project-item">
-              <a
-                class="project-thumb"
-                href="https://modern-seaside-stay-0084.lovable.app"
-                target="_blank"
-                rel="noopener"
-              >
-                <img
-                  src="https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/f2931d98-2830-40a2-a374-af142585f270"
-                  alt="MareSereno seaside stay landing page"
-                />
-              </a>
-              <div class="project-meta">
-                <div class="project-meta-top">2026 · Web App</div>
-                <h2 class="project-title">
-                  <a
-                    href="https://modern-seaside-stay-0084.lovable.app"
-                    target="_blank"
-                    rel="noopener"
-                    >MareSereno (Seaside Stay) ↗</a
-                  >
-                </h2>
-                <p class="project-excerpt">
-                  A luxury beachfront accommodation platform with apartment
-                  listings, instant booking, and secure reservations by the sea.
-                </p>
-                <div class="project-meta-bottom">
-                  Stack · React · Lovable · Tailwind CSS
-                </div>
-              </div>
-            </article>
           </div>
         </section>
       </div>
@@ -429,6 +789,43 @@
         <input id="name-input" type="text" maxlength="24" placeholder="e.g. Blue Fox" />
         <div id="name-error"></div>
         <button id="name-continue" type="button">Continue</button>
+      </div>
+    </div>
+
+    <!-- ─── Project detail modal ─── -->
+    <div
+      class="project-modal"
+      id="projectModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Project details"
+      hidden
+    >
+      <div class="project-modal__backdrop" data-pm-close></div>
+      <div class="project-modal__panel">
+        <button class="project-modal__close" type="button" aria-label="Close" data-pm-close>
+          &times;
+        </button>
+        <div class="project-modal__body">
+          <div class="project-modal__gallery">
+            <div class="project-modal__stage">
+              <button class="project-modal__nav project-modal__nav--prev" type="button" aria-label="Previous screenshot" data-pm-prev>
+                &#8249;
+              </button>
+              <img class="project-modal__img" id="pmImg" src="" alt="Project screenshot" />
+              <button class="project-modal__nav project-modal__nav--next" type="button" aria-label="Next screenshot" data-pm-next>
+                &#8250;
+              </button>
+            </div>
+            <div class="project-modal__thumbs" id="pmThumbs"></div>
+          </div>
+          <div class="project-modal__info">
+            <div class="project-modal__meta-top" id="pmMetaTop"></div>
+            <h2 class="project-modal__title" id="pmTitle"></h2>
+            <p class="project-modal__excerpt" id="pmExcerpt"></p>
+            <div class="project-modal__stack" id="pmStack"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -512,6 +909,120 @@
         };
         window.addEventListener("scroll", updateScroll, { passive: true });
         updateScroll();
+
+        /* ─── Project detail modal (opens for any project card) ─── */
+        (function () {
+          const modal = document.getElementById("projectModal");
+          if (!modal) return;
+
+          const img = document.getElementById("pmImg");
+          const thumbs = document.getElementById("pmThumbs");
+          const metaTop = document.getElementById("pmMetaTop");
+          const titleEl = document.getElementById("pmTitle");
+          const excerptEl = document.getElementById("pmExcerpt");
+          const stackEl = document.getElementById("pmStack");
+
+          const domsShots = [
+            "../assets/img/projects/sss/cropped/doms-1.png",
+            "../assets/img/projects/sss/cropped/doms-2.png",
+            "../assets/img/projects/sss/cropped/doms-3.png",
+            "../assets/img/projects/sss/cropped/doms-4.png",
+            "../assets/img/projects/sss/cropped/doms-5.png",
+          ];
+
+          let shots = [];
+          let index = 0;
+
+          function clean(text) {
+            return (text || "").replace(/↗/g, "").replace(/\s+/g, " ").trim();
+          }
+
+          function getShots(card) {
+            if (card.id === "doms-card") return domsShots;
+            return Array.from(card.querySelectorAll(".project-thumb img")).map(
+              (i) => i.getAttribute("src"),
+            );
+          }
+
+          function show(i) {
+            if (!shots.length) return;
+            index = (i + shots.length) % shots.length;
+            img.src = shots[index];
+            thumbs
+              .querySelectorAll(".project-modal__thumb")
+              .forEach((t, ti) => t.classList.toggle("is-active", ti === index));
+          }
+
+          function open(card) {
+            metaTop.textContent = clean(
+              card.querySelector(".project-meta-top")?.textContent,
+            );
+            titleEl.textContent = clean(
+              card.querySelector(".project-title")?.textContent,
+            );
+            excerptEl.textContent = clean(
+              card.querySelector(".project-excerpt")?.textContent,
+            );
+            stackEl.textContent = clean(
+              card.querySelector(".project-meta-bottom")?.textContent,
+            );
+
+            shots = getShots(card);
+            thumbs.innerHTML = "";
+            shots.forEach((src, i) => {
+              const btn = document.createElement("button");
+              btn.type = "button";
+              btn.className = "project-modal__thumb";
+              btn.setAttribute("aria-label", "Show screenshot " + (i + 1));
+              const t = document.createElement("img");
+              t.src = src;
+              t.alt = "Screenshot " + (i + 1);
+              btn.appendChild(t);
+              btn.addEventListener("click", () => show(i));
+              thumbs.appendChild(btn);
+            });
+
+            show(0);
+            modal.hidden = false;
+            document.body.style.overflow = "hidden";
+          }
+
+          function close() {
+            modal.hidden = true;
+            document.body.style.overflow = "";
+          }
+
+          document
+            .querySelectorAll(".projects-page .featured-list .project-item")
+            .forEach((card) => {
+              card.setAttribute("role", "button");
+              card.setAttribute("tabindex", "0");
+              card.addEventListener("click", () => open(card));
+              card.addEventListener("keydown", (e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  open(card);
+                }
+              });
+            });
+
+          modal
+            .querySelectorAll("[data-pm-close]")
+            .forEach((el) => el.addEventListener("click", close));
+          modal
+            .querySelector("[data-pm-prev]")
+            .addEventListener("click", () => show(index - 1));
+          modal
+            .querySelector("[data-pm-next]")
+            .addEventListener("click", () => show(index + 1));
+
+          document.addEventListener("keydown", (e) => {
+            if (modal.hidden) return;
+            if (e.key === "Escape") close();
+            else if (e.key === "ArrowLeft") show(index - 1);
+            else if (e.key === "ArrowRight") show(index + 1);
+          });
+        })();
       </script>
 
     </body>
